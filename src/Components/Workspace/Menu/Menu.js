@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
 import './Menu.css';
 import axios from 'axios';
 import uniqid from 'unique-string';
@@ -134,7 +132,7 @@ const Menu = props => {
   };
 
   return (
-    <Tabs className='menu'>
+    <div className='menu'>
       <section className='tabs'>
         <button
           className={tab === 'blocks' ? 'selected_tab' : 'tab'}
@@ -156,24 +154,7 @@ const Menu = props => {
         </button>
       </section>
       <section className='content'>{renderTab()}</section>
-
-      {/* Blocks */}
-      {/* <TabPanel> */}
-
-      {/* </TabPanel> */}
-
-      {/* Notes */}
-      {/* <TabPanel> */}
-
-      {/* </TabPanel> */}
-
-      {/* Research */}
-      {/* <TabPanel> */}
-      {/* <ul className='list'>
-          <li>Test</li>
-        </ul> */}
-      {/* </TabPanel> */}
-    </Tabs>
+    </div>
   );
 };
 
