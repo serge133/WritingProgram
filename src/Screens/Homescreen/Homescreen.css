@@ -1,0 +1,10 @@
+.homescreen {
+  padding: 0 20px;
+  width: 100vw;
+  height: 100vh;
+  border: 1px solid black;
+}
+
+.homescreen h1 {
+  margin: 20px;
+}

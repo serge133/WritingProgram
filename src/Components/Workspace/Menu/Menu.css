@@ -1,0 +1,51 @@
+/* BLOCKS */
+
+/* Button to display all  */
+.workspace .menu .allBtn {
+  position: fixed;
+  bottom: 5px;
+}
+
+/* The whole blockList including the tabs | bottom left of workspace */
+.workspace .menu .blockList,
+.workspace .menu .noteList {
+  list-style: none;
+}
+
+/* The list item in the sortable */
+.workspace .menu .blockList li,
+.workspace .menu .noteList li {
+  background-color: white;
+  border: 1px solid #008080;
+  height: 40px;
+  line-height: 40px;
+  color: black;
+  padding: 0 10px;
+  border-radius: 30px;
+  font-size: 1rem;
+  position: relative;
+}
+
+/* The input in the sortable to add items */
+.workspace .menu .addInput {
+  border-radius: 30px;
+  border: 1px solid #008080;
+  height: 40px;
+  padding: 0 10px;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.workspace .menu .noteList {
+  list-style: none;
+}
+
+.workspace .menu .noteList li {
+  /* border: 1px solid #008080; */
+}
+
+/* To push down the panel so that the tabs don't get in the way */
+.workspace .react-tabs__tab-panel {
+  margin: 40px 0 0 0;
+}

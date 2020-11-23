@@ -1,0 +1,66 @@
+/* Top right of workspace */
+.workspace .details {
+  grid-area: 1 / 2 / 1 / 2;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Everything with expand means the whole screen */
+.workspace .expandDetails {
+  grid-area: 1 / 1 / 1 / span 2;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.workspace .expandDetails .edit_name-input {
+  text-align: center;
+}
+
+.workspace .details .documentSubName {
+  /* position: absolute; */
+  font-size: 1.5rem;
+  color: #ccc;
+}
+
+.workspace .expandDetails .documentSubName {
+  text-align: center;
+  color: #ccc;
+  font-size: 2rem;
+  margin: auto;
+}
+
+/* The message that it is saved */
+.workspace .details .saved,
+.workspace .expandDetails .saved {
+  position: absolute;
+  right: 100px;
+  font-weight: 400;
+  color: #ccc;
+}
+
+/* The button that it is saved */
+.workspace .details .saveContentButton,
+.workspace .expandDetails .saveContentButton {
+  position: absolute;
+  right: 100px;
+}
+
+.workspace .details .expandBtn,
+.workspace .expandDetails .expandBtn {
+  position: absolute;
+  right: 30px;
+  height: 1.5rem;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.workspace .details .expandBtn:hover,
+.workspace .expandDetails .expandBtn:hover {
+  opacity: 1;
+}

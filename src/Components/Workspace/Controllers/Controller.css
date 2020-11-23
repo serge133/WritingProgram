@@ -1,0 +1,18 @@
+.controller,
+.expandController {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controller .tool,
+.expandController .tool {
+  height: 20px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.controller .tool:hover,
+.expandController .tool:hover {
+  opacity: 1;
+}

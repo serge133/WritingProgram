@@ -1,0 +1,18 @@
+.checkbox {
+  width: 25px;
+  height: 25px;
+  border: 2px solid #008080;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox_checked div {
+  /* transition-duration: 500ms; */
+  height: 10px;
+  width: 10px;
+  border-radius: 7.5px;
+  background-color: #008080;
+}
