@@ -145,9 +145,11 @@ const App = ({ match }) => {
     <div className='workspace'>
       <div className='topLeft'>
         <Link to={`/`} style={{ textDecoration: 'none' }}>
-          <img src={backSVG} alt='Go Back' className='goHome' />
+          <button>HOME</button>
         </Link>
-        <h1 className='documentName'>{workspace.name}</h1>
+        <h3 className='documentName' onClick={}>
+          {workspace.name}
+        </h3>
       </div>
       <Menu
         workspace={workspace}

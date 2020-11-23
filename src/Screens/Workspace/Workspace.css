@@ -2,7 +2,7 @@
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template: 7% 86% 7% / 1fr 2fr;
+  grid-template: 50px 1fr 50px / 350px 1fr;
 }
 
 /* Top left of workspace */
@@ -11,21 +11,44 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
 }
 
-.workspace .topLeft .goHome {
-  width: 20px;
+/* .workspace .topLeft .goHome {
+  width: 30px;
+  height: 30px;
   position: absolute;
   left: 5px;
   cursor: pointer;
-}
+  border: 1px solid teal;
+} */
 
 .workspace .topLeft .documentName {
+  transition-duration: 500ms;
   overflow: hidden;
-  font-size: 1.5rem;
-  font-weight: 400;
-  position: absolute;
-  left: 30px;
+  color: #171717;
+  border: 3px solid #00808020;
+  border-radius: 30px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 35px;
+  margin-left: 10px;
+  color: #008080;
+  /* cursor: pointer; */
+  cursor: text;
+  /* font-size: 1.5rem;
+  font-weight: 400; */
+  /* position: absolute;
+  left: 30px; */
+}
+
+.workspace .topLeft .documentName:hover {
+  transition-duration: 500ms;
+  border: 3px solid #00808040;
 }
 
 /* The bottom right side of the workspace */
@@ -39,7 +62,7 @@
 /* The whole document preview */
 .workspace .previewTextEditor {
   padding: 50px 50px;
-  border-left: 1px solid #ccc;
+  border-left: 1px solid #00808020;
 }
 
 /* Messing with React Quill for documentPreview */
@@ -57,9 +80,11 @@
 
 /* The bottom left side of the workspace with the tabs and lists */
 .workspace .menu {
-  margin: 10px;
+  /* margin: 10px; */
+  padding: 10px;
   grid-area: 2 / 1 / 2 / 1;
   overflow: auto;
+  border-top: 1px solid #00808020;
 }
 /* Configure the menu */
 .workspace .menuConfigure {
@@ -79,13 +104,14 @@
   width: 100%;
 }
 
-/* .react-tabs__tab {
-
-} */
+.react-tabs__tab {
+  height: 35px;
+}
 
 .react-tabs__tab--selected {
   border: none !important;
-  border-bottom: 1px solid #008080 !important;
+  border: 1px solid #008080 !important;
+  border-radius: 30px !important;
   color: #008080;
 }
 

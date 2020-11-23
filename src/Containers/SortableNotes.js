@@ -77,7 +77,7 @@ class Sortable extends Component {
                 style={getListStyle(snapshot.isDraggingOver)}
               >
                 <button className='addBtn' onClick={() => setAdd(true)}>
-                  Add Note
+                  ADD NOTE
                 </button>
 
                 {items.map((item, index) => (

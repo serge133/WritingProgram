@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import './Menu.css';
@@ -18,6 +18,9 @@ const Menu = props => {
     documentId,
     blockId,
   } = props;
+
+  // Three types of tabs: blocks, notes, and research
+  const [tab, setTab] = useState('blocks');
 
   const saveBlockPosition = items => {
     const itemsObj = {};
@@ -94,45 +97,82 @@ const Menu = props => {
     }
   };
 
+  const renderTab = () => {
+    switch (tab) {
+      case 'blocks':
+        return (
+          <SortableBlocks
+            items={workspace.blocks}
+            setItems={saveBlockPosition}
+            saveContent={saveContent}
+            setAdd={setAdd}
+            documentId={documentId}
+            blockId={blockId}
+            addItem={addBlock}
+          />
+        );
+      case 'notes':
+        return (
+          <SortableNotes
+            items={workspace.notes}
+            setItems={saveNotePosition}
+            // saveContent={saveContent}
+            setAdd={setAdd}
+            // tabID = {tabID}
+            addItem={addNote}
+          />
+        );
+      case 'research':
+        return (
+          <ul className='list'>
+            <li>Test</li>
+          </ul>
+        );
+      default:
+        return <div>error unknown tab</div>;
+    }
+  };
+
   return (
     <Tabs className='menu'>
-      <TabList>
-        <Tab onClick={() => setAdd(false)}>Blocks</Tab>
-        <Tab onClick={() => setAdd(false)}>Notes</Tab>
-        <Tab onClick={() => setAdd(false)}>Research</Tab>
-      </TabList>
+      <section className='tabs'>
+        <button
+          className={tab === 'blocks' ? 'selected_tab' : 'tab'}
+          onClick={() => setTab('blocks')}
+        >
+          BLOCKS
+        </button>
+        <button
+          className={tab === 'notes' ? 'selected_tab' : 'tab'}
+          onClick={() => setTab('notes')}
+        >
+          NOTES
+        </button>
+        <button
+          className={tab === 'research' ? 'selected_tab' : 'tab'}
+          onClick={() => setTab('research')}
+        >
+          RESEARCH
+        </button>
+      </section>
+      <section className='content'>{renderTab()}</section>
 
       {/* Blocks */}
-      <TabPanel>
-        <SortableBlocks
-          items={workspace.blocks}
-          setItems={saveBlockPosition}
-          saveContent={saveContent}
-          setAdd={setAdd}
-          documentId={documentId}
-          blockId={blockId}
-          addItem={addBlock}
-        />
-      </TabPanel>
+      {/* <TabPanel> */}
+
+      {/* </TabPanel> */}
 
       {/* Notes */}
-      <TabPanel>
-        <SortableNotes
-          items={workspace.notes}
-          setItems={saveNotePosition}
-          // saveContent={saveContent}
-          setAdd={setAdd}
-          // tabID = {tabID}
-          addItem={addNote}
-        />
-      </TabPanel>
+      {/* <TabPanel> */}
+
+      {/* </TabPanel> */}
 
       {/* Research */}
-      <TabPanel>
-        <ul className='list'>
+      {/* <TabPanel> */}
+      {/* <ul className='list'>
           <li>Test</li>
-        </ul>
-      </TabPanel>
+        </ul> */}
+      {/* </TabPanel> */}
     </Tabs>
   );
 };

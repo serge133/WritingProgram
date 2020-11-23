@@ -73,7 +73,7 @@ class Sortable extends Component {
               ref={provided.innerRef}
               style={getListStyle(snapshot.isDraggingOver)}
             >
-              <button onClick={() => setAdd(true)}>Add Block</button>
+              <button onClick={() => setAdd(true)}>ADD BLOCK</button>
 
               {items.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
