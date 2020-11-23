@@ -6,6 +6,7 @@ export default function Topbar({
   selectMode,
   toggleSelectMode,
   batch,
+  toggleSearchMode,
 }) {
   // parent css class is '.homescreen'
 
@@ -16,7 +17,11 @@ export default function Topbar({
         <button onClick={toggleSelectMode}>
           {selectMode ? 'DESELECT' : 'SELECT'}
         </button>
-        {selectMode && <button onClick={batch.delete}>REMOVE</button>}
+        {selectMode ? (
+          <button onClick={batch.delete}>REMOVE</button>
+        ) : (
+          <button onClick={toggleSearchMode}>SEARCH</button>
+        )}
       </div>
       <section className='user'>Hello Michael</section>
     </section>

@@ -3,8 +3,46 @@
   width: 100vw;
   height: 100vh;
   border: 1px solid black;
+  overflow: hidden;
 }
 
-.homescreen h1 {
+.homescreen .divider {
   margin: 20px;
+}
+
+.homescreen .searched_document {
+  display: flex;
+  height: 70px;
+  width: 100%;
+  margin-top: 10px;
+  box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
+    0 5px 30px 0 rgba(166, 173, 201, 0.22);
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  align-items: center;
+  padding: 0 20px;
+  position: relative;
+}
+
+.homescreen .searched_document h3 {
+  color: #008080;
+}
+
+.homescreen .searched_document .details {
+  background-color: #00808020;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 200px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.homescreen .searched_document .details .text {
+  color: #008080;
 }

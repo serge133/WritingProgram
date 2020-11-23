@@ -6,6 +6,7 @@ import Modal from '../../Components/Modal/Modal';
 import uniqid from 'unique-string';
 import Axios from 'axios';
 import Popup from '../../Components/Popup/Popup';
+import { Link } from 'react-router-dom';
 
 const emptyAddingDocumentForm = {
   name: '',
@@ -24,7 +25,12 @@ export default function Homescreen() {
   const [popup, setPopup] = useState({
     visible: false,
     position: { x: 0, y: 0 },
+    documentId: '',
   });
+
+  const [searchMode, setSearchMode] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const toggleSearchMode = () => setSearchMode(!searchMode);
 
   // * Fetch Documents
   useEffect(() => {
@@ -72,10 +78,11 @@ export default function Homescreen() {
     toggleAddingDocument();
   };
 
-  const activateDocumentMenu = (x, y) => {
+  const activateDocumentMenu = (x, y, documentId) => {
     setPopup({
       visible: true,
       position: { x, y },
+      documentId,
     });
   };
 
@@ -90,6 +97,18 @@ export default function Homescreen() {
     });
   };
 
+  const deleteDocument = documentId => {
+    Axios.delete(
+      `https://central-rush-249500.firebaseio.com/user/documents/${popup.documentId}.json`
+    );
+    const deleteIndex = documents.findIndex(doc => doc.id === popup.documentId);
+    if (deleteIndex < 0) return;
+    const newDocuments = [...documents];
+    newDocuments.splice(deleteIndex, 1);
+    setDocuments(newDocuments);
+    setPopup({ ...popup, visible: false });
+  };
+
   const batch = {
     delete: () => {
       const documentsToDelete = documents.filter(doc => doc.selected);
@@ -102,7 +121,25 @@ export default function Homescreen() {
       setSelectMode(false);
       // Axios.delete()
     },
+    move: destination => {
+      const documentsToMove = documents.filter(doc => doc.selected);
+      console.log('moving: ', documentsToMove, ' to ', destination);
+    },
   };
+
+  const SearchedDocument = ({ documentId, documentName, dateModified }) => (
+    <Link
+      to={`/workspace/${documentId}/all`}
+      style={{ textDecoration: 'none' }}
+    >
+      <div className='searched_document'>
+        <h3>{documentName}</h3>
+        <section className='details'>
+          <h5 className='text'>{dateModified}</h5>
+        </section>
+      </div>
+    </Link>
+  );
 
   return (
     <div className='homescreen'>
@@ -124,17 +161,42 @@ export default function Homescreen() {
           />
         </Modal>
       )}
+      {searchMode && (
+        <Modal
+          title='Search For A Document'
+          closeModalHandler={toggleSearchMode}
+        >
+          <input
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder='Search Documents'
+          ></input>
+          {documents
+            .filter(doc =>
+              doc.name.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map(d => (
+              <SearchedDocument
+                key={d.id}
+                documentId={d.id}
+                documentName={d.name}
+                dateModified={d.dateModified}
+              />
+            ))}
+        </Modal>
+      )}
       <Topbar
         addDocument={toggleAddingDocument}
         selectMode={selectMode}
         toggleSelectMode={toggleSelectMode}
         batch={batch}
+        toggleSearchMode={toggleSearchMode}
       />
       {/* <h1>Recents</h1>
       <DocumentCarousel />
       <h1>Favorites</h1>
       <DocumentCarousel /> */}
-      <h1>All Documents</h1>
+      <h1 className='divider'>All Documents</h1>
       <DocumentCarousel
         documents={documents}
         selectMode={selectMode}
@@ -145,7 +207,9 @@ export default function Homescreen() {
         position={popup.position}
         visible={popup.visible}
         handleClosePopup={() => setPopup({ ...popup, visible: false })}
-      />
+      >
+        <button onClick={deleteDocument}>DELETE</button>
+      </Popup>
     </div>
   );
 }

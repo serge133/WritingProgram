@@ -1,7 +1,12 @@
 import React from 'react';
 import './Popup.css';
 
-export default function Popup({ position, visible, handleClosePopup }) {
+export default function Popup({
+  position,
+  visible,
+  handleClosePopup,
+  children,
+}) {
   return (
     <div
       className='popup'
@@ -15,6 +20,7 @@ export default function Popup({ position, visible, handleClosePopup }) {
       <button className='close_btn' onClick={handleClosePopup}>
         CLOSE
       </button>
+      {children}
     </div>
   );
 }

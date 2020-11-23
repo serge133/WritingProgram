@@ -35,7 +35,7 @@ export default function DocumentCarousel({
             className='menu'
             alt='menu'
             src={MenuSVG}
-            onClick={e => activateDocumentMenu(e.pageX, e.pageY)}
+            onClick={e => activateDocumentMenu(e.pageX, e.pageY, documentId)}
           />
         )}
         <Link

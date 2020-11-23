@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
-import Checkbox from '../Checkbox/Checkbox';
+import React from 'react';
 import './Modal.css';
 
 const Modal = ({ title, closeModalHandler, inputs, onSubmit, children }) => {
-  const [isChecked, setIsChecked] = useState(false);
-  const toggleChecked = () => setIsChecked(prevState => !prevState);
-
   return (
     <div className='darken_screen'>
       <div className='modal'>
@@ -17,7 +13,7 @@ const Modal = ({ title, closeModalHandler, inputs, onSubmit, children }) => {
           {children}
           {/* <Checkbox isChecked={isChecked} handleToggleCheck={toggleChecked} /> */}
         </section>
-        <button onClick={onSubmit}>SUBMIT</button>
+        {onSubmit && <button onClick={onSubmit}>SUBMIT</button>}
       </div>
     </div>
   );
