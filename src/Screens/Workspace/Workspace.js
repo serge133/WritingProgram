@@ -147,9 +147,7 @@ const App = ({ match }) => {
         <Link to={`/`} style={{ textDecoration: 'none' }}>
           <button>HOME</button>
         </Link>
-        <h3 className='documentName' onClick={}>
-          {workspace.name}
-        </h3>
+        <h3 className='documentName'>{workspace.name}</h3>
       </div>
       <Menu
         workspace={workspace}
