@@ -5,12 +5,12 @@ import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import backSVG from '../assets/back.svg';
+import backSVG from '../../assets/back.svg';
 
-import Menu from '../Components/Workspace/Menu/Menu';
+import Menu from '../../Components/Workspace/Menu/Menu';
 
-import Block from '../Components/Workspace/Block/Block';
-import Modal from '../Components/Modal/Modal';
+import Block from '../../Components/Workspace/Block/Block';
+import Modal from '../../Components/Modal/Modal';
 import uniqid from 'unique-string';
 
 const emptyAddBlockForm = {

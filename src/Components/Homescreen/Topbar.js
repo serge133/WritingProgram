@@ -1,7 +1,12 @@
 import React from 'react';
 import './HomescreenComponents.css';
 
-export default function Topbar({ addDocument, selectMode, toggleSelectMode }) {
+export default function Topbar({
+  addDocument,
+  selectMode,
+  toggleSelectMode,
+  batch,
+}) {
   // parent css class is '.homescreen'
 
   return (
@@ -11,6 +16,7 @@ export default function Topbar({ addDocument, selectMode, toggleSelectMode }) {
         <button onClick={toggleSelectMode}>
           {selectMode ? 'DESELECT' : 'SELECT'}
         </button>
+        {selectMode && <button onClick={batch.delete}>REMOVE</button>}
       </div>
       <section className='user'>Hello Michael</section>
     </section>

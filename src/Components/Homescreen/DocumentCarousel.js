@@ -8,9 +8,10 @@ import MenuSVG from '../../assets/menu.svg';
 export default function DocumentCarousel({
   documents,
   selectMode,
+  toggleSelectDocument,
   activateDocumentMenu,
 }) {
-  const Document = ({ documentId, documentName, dateModified }) => {
+  const Document = ({ documentId, documentName, dateModified, selected }) => {
     const updateDateModified = () => {
       Axios.patch(
         `https://central-rush-249500.firebaseio.com/user/documents/${documentId}.json`,
@@ -24,7 +25,10 @@ export default function DocumentCarousel({
       <div className='document' onClick={updateDateModified}>
         {selectMode ? (
           <div className='menu'>
-            <Checkbox isChecked={false} />
+            <Checkbox
+              isChecked={selected}
+              handleToggleCheck={() => toggleSelectDocument(documentId)}
+            />
           </div>
         ) : (
           <img
@@ -60,6 +64,7 @@ export default function DocumentCarousel({
           documentId={d.id}
           documentName={d.name}
           dateModified={d.dateModified}
+          selected={d.selected}
         />
       ))}
     </section>

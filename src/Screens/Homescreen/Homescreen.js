@@ -26,6 +26,7 @@ export default function Homescreen() {
     position: { x: 0, y: 0 },
   });
 
+  // * Fetch Documents
   useEffect(() => {
     try {
       const getDocuments = async () => {
@@ -34,6 +35,9 @@ export default function Homescreen() {
         );
         if (response.data) {
           const iterableDocuments = Object.values(response.data);
+
+          // Adds a select mode so that you can batch select documents
+          iterableDocuments.forEach(doc => (doc.selected = false));
           setDocuments(iterableDocuments);
         }
       };
@@ -75,22 +79,37 @@ export default function Homescreen() {
     });
   };
 
+  const toggleSelectDocument = documentId => {
+    const docIndex = documents.findIndex(doc => doc.id === documentId);
+    if (docIndex < 0) return;
+    setDocuments(prevState => {
+      const copyDocuments = [...prevState];
+      const selectedDocument = copyDocuments[docIndex];
+      selectedDocument.selected = !selectedDocument.selected;
+      return copyDocuments;
+    });
+  };
+
+  const batch = {
+    delete: () => {
+      const documentsToDelete = documents.filter(doc => doc.selected);
+      for (const i of documentsToDelete) {
+        Axios.delete(
+          `https://central-rush-249500.firebaseio.com/user/documents/${i.id}.json`
+        );
+      }
+      setDocuments(prevState => prevState.filter(doc => !doc.selected));
+      setSelectMode(false);
+      // Axios.delete()
+    },
+  };
+
   return (
     <div className='homescreen'>
       {isAddingDocument && (
         <Modal
           title='New Document'
           closeModalHandler={toggleAddingDocument}
-          // inputs={[
-          //   {
-          //     value: addingDocumentForm.name,
-          //     onChange: e =>
-          //       setAddingDocumentForm({
-          //         ...addingDocumentForm,
-          //         name: e.target.value,
-          //       }),
-          //   },
-          // ]}
           onSubmit={addDocument}
         >
           <input
@@ -109,6 +128,7 @@ export default function Homescreen() {
         addDocument={toggleAddingDocument}
         selectMode={selectMode}
         toggleSelectMode={toggleSelectMode}
+        batch={batch}
       />
       {/* <h1>Recents</h1>
       <DocumentCarousel />
@@ -118,6 +138,7 @@ export default function Homescreen() {
       <DocumentCarousel
         documents={documents}
         selectMode={selectMode}
+        toggleSelectDocument={toggleSelectDocument}
         activateDocumentMenu={activateDocumentMenu}
       />
       <Popup

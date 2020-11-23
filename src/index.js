@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Workspace from './Screens/Workspace';
+import Workspace from './Screens/Workspace/Workspace';
 // ! import SplitScreen from './SplitScreen';
 import * as serviceWorker from './serviceWorker';
 
