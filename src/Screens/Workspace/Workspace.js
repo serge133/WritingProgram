@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Workspace.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
-import backSVG from '../../assets/back.svg';
-
+// import backSVG from '../../assets/back.svg';
 import Menu from '../../Components/Workspace/Menu/Menu';
 
 import Block from '../../Components/Workspace/Block/Block';
@@ -28,6 +26,7 @@ const App = ({ match }) => {
   const [textEditor, setTextEditor] = useState('');
 
   const [saved, setSaved] = useState(true);
+  const [autosaveTimer, setAutosaveTimer] = useState(10);
 
   const [add, setAdd] = useState(false);
 
@@ -35,6 +34,7 @@ const App = ({ match }) => {
 
   const { documentId, blockId } = match.params;
 
+  // Fetch document
   useEffect(() => {
     axios
       .get(
@@ -66,11 +66,13 @@ const App = ({ match }) => {
     // eslint-disable-next-line
   }, []);
 
+  // Render block on block id change
   useEffect(() => {
     const block = workspace.blocks.find(block => block.id === blockId);
     if (block) setTextEditor(block.content);
   }, [blockId, workspace.blocks]);
 
+  // Save
   const saveContent = () => {
     const copyBlocks = [...workspace.blocks];
     const thisBlockIndex = copyBlocks.findIndex(block => block.id === blockId);
@@ -79,6 +81,8 @@ const App = ({ match }) => {
       // setBlocks(copyBlocks);
       setWorkspace({ ...workspace, blocks: copyBlocks });
       setSaved(true);
+      // ! this is problematic:
+      // setAutosaveTimer(1);
       axios.patch(
         `https://central-rush-249500.firebaseio.com/user/documents/${documentId}/blocks/${blockId}.json`,
         {
@@ -87,7 +91,44 @@ const App = ({ match }) => {
       );
     }
   };
+  // Autosave functionality
+  // useEffect(() => {
+  // if (!saved) {
+  useEffect(() => {
+    const timeout = setTimeout(
+      () => setAutosaveTimer(prevState => prevState - 1),
+      1000
+    );
+    if (autosaveTimer <= 0) {
+      clearTimeout(timeout);
+      const copyBlocks = [...workspace.blocks];
+      const thisBlockIndex = copyBlocks.findIndex(
+        block => block.id === blockId
+      );
+      if (thisBlockIndex >= 0) {
+        copyBlocks[thisBlockIndex].content = textEditor;
+        // setBlocks(copyBlocks);
+        setWorkspace({ ...workspace, blocks: copyBlocks });
+        setSaved(true);
+        // ! this is problematic:
+        // setAutosaveTimer(1);
+        axios.patch(
+          `https://central-rush-249500.firebaseio.com/user/documents/${documentId}/blocks/${blockId}.json`,
+          {
+            content: textEditor,
+          }
+        );
+      }
+      setAutosaveTimer(10);
+    }
+    return () => clearTimeout(timeout);
+  }, [autosaveTimer, setAutosaveTimer]);
+  // return () => clearTimeout(timeout);
+  // }
+  // return () => {};
+  // }, [saved, autosaveTimer, setAutosaveTimer, saveContent]);
 
+  // Change Block Name
   const changeName = changedName => {
     const copyBlocks = [...workspace.blocks];
     const thisBlockIndex = copyBlocks.findIndex(block => block.id === blockId);
@@ -105,10 +146,11 @@ const App = ({ match }) => {
     }
   };
 
+  // Render the whole document
   const previewDocument = () => {
     // Block seperator in .join()
     const document = workspace.blocks.map(block => block.content).join('<br/>');
-    // .join(`=========`);
+
     return (
       <ReactQuill
         readOnly={true}
@@ -194,6 +236,8 @@ const App = ({ match }) => {
           setTextEditor={setTextEditor}
           saveContent={saveContent}
           onChangeName={changeName}
+          autosaveTimer={autosaveTimer}
+          setAutosaveTimer={setAutosaveTimer}
         />
       ) : (
         previewDocument()

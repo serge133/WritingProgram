@@ -16,6 +16,8 @@ const Block = ({
   textEditor,
   setTextEditor,
   onChangeName,
+  autosaveTimer,
+  setAutosaveTimer,
 }) => {
   const [expand, setExpand] = useState(false);
   const [editNameMode, setEditNameMode] = useState(false);
@@ -39,6 +41,12 @@ const Block = ({
       toggleEditNameMode();
     }
   };
+
+  // const notSaved = () => {
+  //   if (saved) {
+  //     setSaved(false);
+  //   }
+  // };
 
   return (
     <Fragment>
@@ -66,20 +74,26 @@ const Block = ({
           alt='Expand Screen'
           className='expandBtn'
         />
-        {saved ? (
-          <h3 className='saved'>saved</h3>
-        ) : (
-          <button onClick={saveContent} className='saveContentButton'>
-            Save
-          </button>
-        )}
+        {/* {saved ? (
+          <>
+            <h3 className='saved'>saved</h3>
+          </>
+        ) : ( */}
+        <button
+          // ? Saves it by forcing the autosave timer to reach its end
+          onClick={() => setAutosaveTimer(1)}
+          className='saveContentButton'
+        >
+          {autosaveTimer >= 8 ? 'Saved' : `Save ${autosaveTimer}s`}
+        </button>
+        {/* )} */}
       </div>
       {/* The middle */}
       <ReactQuill
         className={expand ? 'expandTextEditor' : 'textEditor'}
         value={textEditor}
         onChange={content => setTextEditor(content)}
-        onKeyUp={() => setSaved(false)}
+        // onKeyUp={notSaved}
       />
       {/* The bottom */}
       <BlockController
