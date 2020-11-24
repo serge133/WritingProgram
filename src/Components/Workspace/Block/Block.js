@@ -84,7 +84,7 @@ const Block = ({
           onClick={() => setAutosaveTimer(0)}
           className='saveContentButton'
         >
-          {saved ? 'Saved' : `Save ${autosaveTimer}s`}
+          {saved | (autosaveTimer === 3) ? 'Saved' : `Save ${autosaveTimer}s`}
         </button>
         {/* )} */}
       </div>
