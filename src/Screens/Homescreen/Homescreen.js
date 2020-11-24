@@ -74,6 +74,8 @@ export default function Homescreen() {
       dateCreated,
       dateModified,
       timeModified,
+      // Top level is / and folders are /folder1/folder2/folder3
+      origin: '/',
     };
     Axios.put(
       `https://central-rush-249500.firebaseio.com/user/documents/${id}.json`,

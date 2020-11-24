@@ -1,4 +1,8 @@
 # What needs to be done
 
-- [x] Fix autosave so it is not a perpetual loop. If nothing is being written then it should not start a timer. If something is written then the timer should start counting down to save.
+- [ ] Add Folders
+- [ ] Each document has the key of origin in which it works that the value is **/ at the top level and to navigate in the folders it will be /folder1/folder2/folder3**
+
+# Later
+
 - [ ] Pagination in the workspace
