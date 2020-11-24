@@ -47,35 +47,33 @@ button:hover {
 }
 
 .ql-toolbar {
-  position: absolute;
-  background-color: white;
+  border: 3px solid #00808020 !important;
+  border-radius: 30px;
+  width: 100%;
+  /* background-color: white;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 7;
+  z-index: 7; */
+  z-index: 1;
+  background-color: white;
 }
 
 /* Messing with React Quill */
 .ql-container.ql-snow {
   border: none !important;
-  border-left: 1px solid #ccc !important;
-}
-
-.ql-toolbar {
-  position: absolute;
-  border: none !important;
 }
 
 .textEditor .ql-editor {
   margin: 0 !important;
-  padding: 50px 20px 20px 20px !important;
+  padding: 20px 20px 20px 20px;
 }
 
 .expandTextEditor .ql-editor {
   padding: 100px;
 }
 
-/* Scroll Bar */
+/** Scroll Bar */
 
 ::-webkit-scrollbar {
   width: 20px;

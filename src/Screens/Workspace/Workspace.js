@@ -132,6 +132,9 @@ const App = ({ match }) => {
 
     return (
       <ReactQuill
+        style={{
+          boxShadow: '0 5px 5px 0 rgba(154, 160, 185, 0.05)',
+        }}
         readOnly={true}
         className='previewTextEditor'
         value={document}
