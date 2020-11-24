@@ -42,11 +42,11 @@ const Block = ({
     }
   };
 
-  // const notSaved = () => {
-  //   if (saved) {
-  //     setSaved(false);
-  //   }
-  // };
+  const editing = () => {
+    if (saved) {
+      setSaved(false);
+    }
+  };
 
   return (
     <Fragment>
@@ -81,10 +81,10 @@ const Block = ({
         ) : ( */}
         <button
           // ? Saves it by forcing the autosave timer to reach its end
-          onClick={() => setAutosaveTimer(1)}
+          onClick={() => setAutosaveTimer(0)}
           className='saveContentButton'
         >
-          {autosaveTimer >= 8 ? 'Saved' : `Save ${autosaveTimer}s`}
+          {saved ? 'Saved' : `Save ${autosaveTimer}s`}
         </button>
         {/* )} */}
       </div>
@@ -93,7 +93,7 @@ const Block = ({
         className={expand ? 'expandTextEditor' : 'textEditor'}
         value={textEditor}
         onChange={content => setTextEditor(content)}
-        // onKeyUp={notSaved}
+        onKeyUp={editing}
       />
       {/* The bottom */}
       <BlockController

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Workspace.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -15,6 +15,8 @@ const emptyAddBlockForm = {
   name: '',
 };
 
+const autosaveTimeInSeconds = 3;
+
 const App = ({ match }) => {
   const [workspace, setWorkspace] = useState({
     name: '',
@@ -26,7 +28,7 @@ const App = ({ match }) => {
   const [textEditor, setTextEditor] = useState('');
 
   const [saved, setSaved] = useState(true);
-  const [autosaveTimer, setAutosaveTimer] = useState(10);
+  const [autosaveTimer, setAutosaveTimer] = useState(autosaveTimeInSeconds);
 
   const [add, setAdd] = useState(false);
 
@@ -92,41 +94,18 @@ const App = ({ match }) => {
     }
   };
   // Autosave functionality
-  // useEffect(() => {
-  // if (!saved) {
   useEffect(() => {
-    const timeout = setTimeout(
-      () => setAutosaveTimer(prevState => prevState - 1),
-      1000
-    );
+    const timeout = setTimeout(() => {
+      if (saved) return;
+      setAutosaveTimer(prevState => prevState - 1);
+    }, 1000);
     if (autosaveTimer <= 0) {
       clearTimeout(timeout);
-      const copyBlocks = [...workspace.blocks];
-      const thisBlockIndex = copyBlocks.findIndex(
-        block => block.id === blockId
-      );
-      if (thisBlockIndex >= 0) {
-        copyBlocks[thisBlockIndex].content = textEditor;
-        // setBlocks(copyBlocks);
-        setWorkspace({ ...workspace, blocks: copyBlocks });
-        setSaved(true);
-        // ! this is problematic:
-        // setAutosaveTimer(1);
-        axios.patch(
-          `https://central-rush-249500.firebaseio.com/user/documents/${documentId}/blocks/${blockId}.json`,
-          {
-            content: textEditor,
-          }
-        );
-      }
-      setAutosaveTimer(10);
+      saveContent();
+      setAutosaveTimer(autosaveTimeInSeconds);
     }
     return () => clearTimeout(timeout);
-  }, [autosaveTimer, setAutosaveTimer]);
-  // return () => clearTimeout(timeout);
-  // }
-  // return () => {};
-  // }, [saved, autosaveTimer, setAutosaveTimer, saveContent]);
+  }, [autosaveTimer, setAutosaveTimer, saved]);
 
   // Change Block Name
   const changeName = changedName => {
@@ -160,6 +139,7 @@ const App = ({ match }) => {
     );
   };
 
+  // Creates a new block
   const addBlock = () => {
     const id = uniqid();
     setWorkspace({
