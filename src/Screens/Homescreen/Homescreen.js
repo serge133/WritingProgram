@@ -51,7 +51,13 @@ export default function Homescreen() {
     } catch (e) {
       console.log(e);
     }
+    document.title = 'Hello Michael';
   }, []);
+
+  // // Set the title of html to the document name
+  // useEffect(() => {
+
+  // }, []);
 
   const toggleAddingDocument = () =>
     setIsAddingDocument(prevState => !prevState);
@@ -208,9 +214,14 @@ export default function Homescreen() {
         visible={popup.visible}
         handleClosePopup={() => setPopup({ ...popup, visible: false })}
       >
-        <button onClick={deleteDocument}>DELETE</button>
+        <button onClick={deleteDocument} className='delete_btn'>
+          DELETE
+        </button>
         <button>RENAME</button>
+        <button>MOVE</button>
+        <button>FAVORITE</button>
       </Popup>
+      <h1 className='divider'>Folders</h1>
     </div>
   );
 }

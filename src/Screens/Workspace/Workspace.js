@@ -36,6 +36,8 @@ const App = ({ match }) => {
 
   const { documentId, blockId } = match.params;
 
+  const { name: workspace_name } = workspace;
+
   // Fetch document
   useEffect(() => {
     axios
@@ -67,6 +69,11 @@ const App = ({ match }) => {
       });
     // eslint-disable-next-line
   }, []);
+
+  // Set the title of html to the document name
+  useEffect(() => {
+    document.title = workspace_name;
+  }, [workspace_name]);
 
   // Render block on block id change
   useEffect(() => {
@@ -166,13 +173,15 @@ const App = ({ match }) => {
 
   const block = workspace.blocks.find(block => block.id === blockId);
 
+  const truncatedName = workspace.name.slice(0, 20) + '...';
+
   return (
     <div className='workspace'>
       <div className='topLeft'>
         <Link to={`/`} style={{ textDecoration: 'none' }}>
           <button>HOME</button>
         </Link>
-        <h3 className='documentName'>{workspace.name}</h3>
+        <h3 className='documentName'>{truncatedName}</h3>
       </div>
       <Menu
         workspace={workspace}
@@ -190,6 +199,7 @@ const App = ({ match }) => {
         >
           <input
             value={addBlockForm.name}
+            placeholder='Block Name'
             onChange={e =>
               setAddBlockForm({
                 ...addBlockForm,

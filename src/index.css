@@ -36,9 +36,19 @@ button {
   outline: transparent;
 }
 
+.delete_btn {
+  background-color: #ff000020;
+  color: #ff0000;
+}
+
 button:hover {
   transition-duration: 500ms;
   background-color: #00808040;
+}
+
+.delete_btn:hover {
+  transition-duration: 500ms;
+  background-color: #ff000040;
 }
 
 /* React Quill */

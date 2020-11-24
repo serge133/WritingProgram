@@ -92,8 +92,11 @@ const Block = ({
       <ReactQuill
         className={expand ? 'expandTextEditor' : 'textEditor'}
         value={textEditor}
-        onChange={content => setTextEditor(content)}
-        onKeyUp={editing}
+        onChange={content => {
+          setTextEditor(content);
+          editing();
+        }}
+        // onKeyUp={editing}
       />
       {/* The bottom */}
       <BlockController
