@@ -209,6 +209,7 @@ export default function Homescreen() {
         handleClosePopup={() => setPopup({ ...popup, visible: false })}
       >
         <button onClick={deleteDocument}>DELETE</button>
+        <button>RENAME</button>
       </Popup>
     </div>
   );

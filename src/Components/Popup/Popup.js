@@ -8,19 +8,23 @@ export default function Popup({
   children,
 }) {
   return (
-    <div
-      className='popup'
+    <section
+      className='popup_screen-overlay'
       style={{
-        position: 'absolute',
-        top: position.y,
-        left: position.x,
         display: visible ? 'block' : 'none',
       }}
+      onClick={handleClosePopup}
     >
-      <button className='close_btn' onClick={handleClosePopup}>
-        CLOSE
-      </button>
-      {children}
-    </div>
+      <div
+        className='popup'
+        style={{
+          position: 'absolute',
+          top: position.y,
+          left: position.x,
+        }}
+      >
+        {children}
+      </div>
+    </section>
   );
 }
