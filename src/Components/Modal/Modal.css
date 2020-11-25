@@ -7,7 +7,7 @@
   }
 } */
 
-.darken_screen {
+.darken-screen {
   position: fixed;
   top: 0;
   left: 0;
@@ -20,7 +20,7 @@
   justify-content: center;
 }
 
-.darken_screen .modal {
+.darken-screen .modal {
   width: 60%;
   height: 500px;
   background-color: white;

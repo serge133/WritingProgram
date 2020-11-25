@@ -1,30 +1,27 @@
 import React from 'react';
+import Fade from '../Fade/Fade';
 import './Popup.css';
 
 export default function Popup({
   position,
-  visible,
+  display,
   handleClosePopup,
   children,
 }) {
   return (
-    <section
-      className='popup_screen-overlay'
-      style={{
-        display: visible ? 'block' : 'none',
-      }}
-      onClick={handleClosePopup}
-    >
-      <div
-        className='popup'
-        style={{
-          position: 'absolute',
-          top: position.y,
-          left: position.x,
-        }}
-      >
-        {children}
-      </div>
-    </section>
+    <Fade display={display}>
+      <section className='popup-screen_overlay' onClick={handleClosePopup}>
+        <div
+          className='popup'
+          style={{
+            position: 'absolute',
+            top: position.y,
+            left: position.x,
+          }}
+        >
+          {children}
+        </div>
+      </section>
+    </Fade>
   );
 }

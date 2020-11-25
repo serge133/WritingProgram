@@ -27,7 +27,7 @@ export default function Homescreen() {
   const toggleSelectMode = () => setSelectMode(!selectMode);
 
   const [popup, setPopup] = useState({
-    visible: false,
+    display: false,
     position: { x: 0, y: 0 },
     documentId: '',
   });
@@ -84,7 +84,7 @@ export default function Homescreen() {
 
   const activateDocumentMenu = (x, y, documentId) => {
     setPopup({
-      visible: true,
+      display: true,
       position: { x, y },
       documentId,
     });
@@ -110,7 +110,7 @@ export default function Homescreen() {
     const newDocuments = [...documents];
     newDocuments.splice(deleteIndex, 1);
     setDocuments(newDocuments);
-    setPopup({ ...popup, visible: false });
+    setPopup({ ...popup, display: false });
   };
 
   const batch = {
@@ -145,47 +145,13 @@ export default function Homescreen() {
     </Link>
   );
 
-  const renderModal = () => {
-    const handleCloseModal = () => setModal(null);
-
-    switch (modal) {
-      case 'document':
-        return (
-          <Modal
-            title='New Document'
-            closeModalHandler={handleCloseModal}
-            onSubmit={addDocument}
-          >
-            <input
-              value={addingDocumentForm.name}
-              placeholder='Document Name'
-              onChange={e =>
-                setAddingDocumentForm({
-                  ...addingDocumentForm,
-                  name: e.target.value,
-                })
-              }
-            />
-          </Modal>
-        );
-      case 'folder':
-        return (
-          <Modal
-            title='New Folder'
-            onSubmit={() => console.log('adding folder')}
-            closeModalHandler={handleCloseModal}
-          ></Modal>
-        );
-      default:
-        return;
-    }
-  };
+  const closeModalHandler = () => setModal(null);
 
   return (
     <div className='homescreen'>
       <Modal
         title='New Document'
-        closeModalHandler={() => setModal(null)}
+        closeModalHandler={closeModalHandler}
         display={modal === 'document'}
         onSubmit={addDocument}
       >
@@ -202,16 +168,39 @@ export default function Homescreen() {
       </Modal>
       <Modal
         title='New Folder'
-        closeModalHandler={() => setModal(null)}
+        closeModalHandler={closeModalHandler}
         display={modal === 'folder'}
       >
         <Modal
           title='New Else'
-          closeModalHandler={() => setModal(null)}
+          closeModalHandler={closeModalHandler}
           display={modal === 'else'}
         ></Modal>
       </Modal>
-      {searchMode && (
+      <Modal
+        title='Search For A Document'
+        closeModalHandler={closeModalHandler}
+        display={modal === 'search'}
+      >
+        <input
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          placeholder='Search Documents'
+        ></input>
+        {documents
+          .filter(doc =>
+            doc.name.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+          .map(d => (
+            <SearchedDocument
+              key={d.id}
+              documentId={d.id}
+              documentName={d.name}
+              dateModified={d.dateModified}
+            />
+          ))}
+      </Modal>
+      {/* {searchMode && (
         <Modal
           title='Search For A Document'
           closeModalHandler={toggleSearchMode}
@@ -234,14 +223,13 @@ export default function Homescreen() {
               />
             ))}
         </Modal>
-      )}
+      )} */}
       <Topbar
         handlePressNew={toggleNew}
         isAdding={isAdding}
         selectMode={selectMode}
         toggleSelectMode={toggleSelectMode}
         batch={batch}
-        toggleSearchMode={toggleSearchMode}
         setModal={setModal}
       />
       {/* <h1>Recents</h1>
@@ -257,15 +245,15 @@ export default function Homescreen() {
       />
       <Popup
         position={popup.position}
-        visible={popup.visible}
-        handleClosePopup={() => setPopup({ ...popup, visible: false })}
+        display={popup.display}
+        handleClosePopup={() => setPopup({ ...popup, display: false })}
       >
-        <button onClick={deleteDocument} className='delete_btn'>
-          DELETE
-        </button>
         <button>RENAME</button>
         <button>MOVE</button>
         <button>FAVORITE</button>
+        <button onClick={deleteDocument} className='delete_btn'>
+          DELETE
+        </button>
       </Popup>
       <h1 className='divider'>Folders</h1>
     </div>

@@ -22,34 +22,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-/* Animagtions */
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.fade-out {
-  animation: fadeOut 250ms linear forwards;
-}
-
-.fade-in {
-  animation: fadeIn 250ms linear forwards;
-}
-
-/* * */
 
 button {
   transition-duration: 500ms;

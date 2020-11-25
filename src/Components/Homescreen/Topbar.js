@@ -7,7 +7,6 @@ export default function Topbar({
   selectMode,
   toggleSelectMode,
   batch,
-  toggleSearchMode,
   setModal,
 }) {
   // parent css class is '.homescreen'
@@ -21,11 +20,11 @@ export default function Topbar({
         {selectMode ? (
           <button onClick={batch.delete}>REMOVE</button>
         ) : (
-          <button onClick={toggleSearchMode}>SEARCH</button>
+          <button onClick={() => setModal('search')}>SEARCH</button>
         )}
-        <button
+        <div
           onClick={handlePressNew}
-          className={isAdding && 'expand_new-button'}
+          className={['new-button', isAdding && 'expand_new-button'].join(' ')}
         >
           {isAdding ? (
             <div className='hidden_buttons'>
@@ -51,7 +50,7 @@ export default function Topbar({
           ) : (
             'NEW'
           )}
-        </button>
+        </div>
       </div>
       <section className='user'>Hello Michael</section>
     </section>

@@ -1,4 +1,4 @@
-.popup_screen-overlay {
+.popup-screen_overlay {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -8,8 +8,8 @@
   z-index: 9999998;
 }
 
-.popup_screen-overlay .popup {
-  max-width: 350px;
+.popup-screen_overlay .popup {
+  width: 120px;
   min-height: 55px;
   box-shadow: 10px 10px 23px 8px #ebebeb;
   border-radius: 30px;
@@ -19,13 +19,13 @@
   z-index: 9999999;
 }
 
-.popup_screen-overlay .popup .close_btn {
+.popup-screen_overlay .popup .close_btn {
   background-color: #ff000020;
   color: #ff0000;
 }
 
-.popup_screen-overlay .popup button {
-  display: inline-block;
+.popup-screen_overlay .popup button {
+  display: block;
   margin-right: 10px;
   margin-bottom: 10px;
 }
