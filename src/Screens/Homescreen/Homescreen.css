@@ -1,8 +1,9 @@
 .homescreen {
-  padding: 0 20px;
+  padding: 100px 20px 0 20px;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  overflow-y: auto;
+  /* overflow-x: auto; */
 }
 
 .homescreen .divider {

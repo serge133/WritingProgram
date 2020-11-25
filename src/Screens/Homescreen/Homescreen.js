@@ -7,9 +7,19 @@ import uniqid from 'unique-string';
 import Axios from 'axios';
 import Popup from '../../Components/Popup/Popup';
 import { Link } from 'react-router-dom';
+import FolderCarousel from '../../Components/Homescreen/FolderCarousel';
 
 const emptyAddingDocumentForm = {
   name: '',
+};
+
+const folderSizes = ['small', 'medium', 'large'];
+
+const emptyNewFolderForm = {
+  name: '',
+  size: '',
+  color: 'default',
+  pinned: false,
 };
 
 export default function Homescreen() {
@@ -18,11 +28,18 @@ export default function Homescreen() {
 
   const [modal, setModal] = useState(null);
 
+  // Forms
   const [addingDocumentForm, setAddingDocumentForm] = useState(
     emptyAddingDocumentForm
   );
-  const [documents, setDocuments] = useState([]);
 
+  const [newFolderForm, setNewFolderForm] = useState(emptyNewFolderForm);
+  // ---
+
+  // Essentials
+  const [documents, setDocuments] = useState([]);
+  const [folders, setFolders] = useState([]);
+  // ---
   const [selectMode, setSelectMode] = useState(false);
   const toggleSelectMode = () => setSelectMode(!selectMode);
 
@@ -32,9 +49,9 @@ export default function Homescreen() {
     documentId: '',
   });
 
-  const [searchMode, setSearchMode] = useState(false);
+  //// const [searchMode, setSearchMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const toggleSearchMode = () => setSearchMode(!searchMode);
+  //// const toggleSearchMode = () => setSearchMode(!searchMode);
 
   // * Fetch Documents
   useEffect(() => {
@@ -58,7 +75,26 @@ export default function Homescreen() {
     document.title = 'Hello Michael';
   }, []);
 
-  const addDocument = () => {
+  // * Fetch Folders
+  useEffect(() => {
+    try {
+      const getFolders = async () => {
+        const response = await Axios.get(
+          `https://central-rush-249500.firebaseio.com/user/folders.json`
+        );
+        if (response.data) {
+          const iterableFolders = Object.values(response.data);
+          console.log(iterableFolders);
+          setFolders(iterableFolders);
+        }
+      };
+      getFolders();
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  const newDocument = () => {
     const id = uniqid();
     const dateCreated = new Date().toDateString();
     // because you are creating a new document
@@ -70,7 +106,7 @@ export default function Homescreen() {
       dateCreated,
       dateModified,
       timeModified,
-      // Top level is / and folders are /folder1/folder2/folder3
+      // Top level is / and folders are /folderid/foldeid2/folderid3
       origin: '/',
     };
     Axios.put(
@@ -79,6 +115,31 @@ export default function Homescreen() {
     );
     setDocuments(documents.concat([document]));
     setAddingDocumentForm(emptyAddingDocumentForm);
+    setModal(null);
+  };
+
+  // * FOLDERS
+
+  const newFolder = () => {
+    const id = uniqid();
+
+    const folder = {
+      id,
+      name: newFolderForm.name,
+      // Will be small by default
+      size: folderSizes[0],
+      color: 'default',
+      pinned: false,
+      // There are folders within folders
+      origin: '/',
+    };
+
+    Axios.put(
+      `https://central-rush-249500.firebaseio.com/user/folders/${id}.json`,
+      folder
+    );
+    setFolders(folders.concat([folder]));
+    setNewFolderForm(emptyNewFolderForm);
     setModal(null);
   };
 
@@ -153,7 +214,7 @@ export default function Homescreen() {
         title='New Document'
         closeModalHandler={closeModalHandler}
         display={modal === 'document'}
-        onSubmit={addDocument}
+        onSubmit={newDocument}
       >
         <input
           value={addingDocumentForm.name}
@@ -170,13 +231,24 @@ export default function Homescreen() {
         title='New Folder'
         closeModalHandler={closeModalHandler}
         display={modal === 'folder'}
+        onSubmit={newFolder}
       >
-        <Modal
-          title='New Else'
-          closeModalHandler={closeModalHandler}
-          display={modal === 'else'}
-        ></Modal>
+        <input
+          value={newFolderForm.name}
+          placeholder='Folder Name'
+          onChange={e =>
+            setNewFolderForm({
+              ...newFolderForm,
+              name: e.target.value,
+            })
+          }
+        />
       </Modal>
+      <Modal
+        title='New Else'
+        closeModalHandler={closeModalHandler}
+        display={modal === 'else'}
+      ></Modal>
       <Modal
         title='Search For A Document'
         closeModalHandler={closeModalHandler}
@@ -200,30 +272,6 @@ export default function Homescreen() {
             />
           ))}
       </Modal>
-      {/* {searchMode && (
-        <Modal
-          title='Search For A Document'
-          closeModalHandler={toggleSearchMode}
-        >
-          <input
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            placeholder='Search Documents'
-          ></input>
-          {documents
-            .filter(doc =>
-              doc.name.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            .map(d => (
-              <SearchedDocument
-                key={d.id}
-                documentId={d.id}
-                documentName={d.name}
-                dateModified={d.dateModified}
-              />
-            ))}
-        </Modal>
-      )} */}
       <Topbar
         handlePressNew={toggleNew}
         isAdding={isAdding}
@@ -232,10 +280,6 @@ export default function Homescreen() {
         batch={batch}
         setModal={setModal}
       />
-      {/* <h1>Recents</h1>
-      <DocumentCarousel />
-      <h1>Favorites</h1>
-      <DocumentCarousel /> */}
       <h1 className='divider'>All Documents</h1>
       <DocumentCarousel
         documents={documents}
@@ -243,6 +287,10 @@ export default function Homescreen() {
         toggleSelectDocument={toggleSelectDocument}
         activateDocumentMenu={activateDocumentMenu}
       />
+      <h1 className='divider'>Folders</h1>
+
+      <FolderCarousel folders={folders} />
+      {/* This is the extra details pop up */}
       <Popup
         position={popup.position}
         display={popup.display}
@@ -255,7 +303,6 @@ export default function Homescreen() {
           DELETE
         </button>
       </Popup>
-      <h1 className='divider'>Folders</h1>
     </div>
   );
 }

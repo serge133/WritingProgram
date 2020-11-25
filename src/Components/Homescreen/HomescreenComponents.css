@@ -1,17 +1,17 @@
 /** Top bar */
-
 .homescreen .topbar {
-  width: 100%;
+  width: calc(100% - 40px);
   /* margin: 0 2.5vw; */
   height: 70px;
   box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
     0 5px 30px 0 rgba(166, 173, 201, 0.22);
   border-radius: 30px;
-  margin-top: 20px;
-  /* background-color: black; */
-  /* border: 2px solid black; */
   display: flex;
   padding: 0 20px;
+  position: fixed;
+  top: 20px;
+  background-color: white;
+  z-index: 999999999;
 }
 
 .homescreen .topbar .controls {
@@ -19,6 +19,55 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+/* A Mock button because react js does not like buttons in buttons */
+.homescreen .new-button {
+  transition-duration: 500ms;
+  width: 100px;
+  height: 35px;
+  /* background-color: #00808020; */
+  border: 3px solid #00808020;
+  color: #008080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.expand_new-button {
+  /* background-color: #00808020; */
+  width: 360px !important;
+  transition-duration: 500ms;
+  text-align: center;
+  height: 35px;
+  overflow: hidden;
+  /* animation-duration: 500ms;
+  animation-name: makeTransparent;
+  animation-fill-mode: forwards; */
+}
+
+.expand_new-button .hidden_buttons {
+  overflow: hidden;
+  height: 35px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.expand_new-button .hidden_buttons .hidden_button {
+  display: none;
+  opacity: 0;
+  animation-delay: 500ms;
+  animation-duration: 500ms;
+  animation-name: fadeIn;
+  animation-fill-mode: forwards;
+  display: inline-block;
+  margin: 0 !important;
 }
 
 .homescreen .topbar .user {
@@ -42,9 +91,26 @@
   /* justify-content: space-evenly; */
 }
 
+.homescreen .folder-carousel {
+  width: 100vw;
+}
+
 .homescreen .document_carousel .document {
   display: inline-block;
   height: 250px;
+  width: 200px;
+  box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
+    0 5px 30px 0 rgba(166, 173, 201, 0.22);
+  border-radius: 30px;
+  position: relative;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.homescreen .folder-carousel .folder {
+  display: inline-block;
+  height: 100px;
   width: 200px;
   box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
     0 5px 30px 0 rgba(166, 173, 201, 0.22);
@@ -105,76 +171,4 @@
 
 .homescreen .document_carousel .document .details {
   color: #008080;
-}
-
-/*? NEW */
-
-@keyframes fadeIn {
-  from {
-    display: inline-block;
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-    display: none;
-  }
-}
-
-/* A Mock button because react js does not like buttons in buttons */
-.homescreen .new-button {
-  transition-duration: 500ms;
-  width: 100px;
-  height: 35px;
-  /* background-color: #00808020; */
-  border: 3px solid #00808020;
-  color: #008080;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.expand_new-button {
-  /* background-color: #00808020; */
-  width: 360px !important;
-  transition-duration: 500ms;
-  text-align: center;
-  height: 35px;
-  overflow: hidden;
-  /* animation-duration: 500ms;
-  animation-name: makeTransparent;
-  animation-fill-mode: forwards; */
-}
-
-.expand_new-button .hidden_buttons {
-  overflow: hidden;
-  height: 35px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.expand_new-button .hidden_buttons .hidden_button {
-  display: none;
-  opacity: 0;
-  animation-delay: 500ms;
-  animation-duration: 500ms;
-  animation-name: fadeIn;
-  animation-fill-mode: forwards;
-  display: inline-block;
-  margin: 0 !important;
 }
