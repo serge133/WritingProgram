@@ -3,6 +3,7 @@ Each folder has an origin as well as folders. The origin is where the document i
 # What needs to be done
 
 - [ ] Add Folders
+- [ ] Incorporate the URL params and folder location
 
 # Later
 

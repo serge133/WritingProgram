@@ -8,6 +8,7 @@ import Axios from 'axios';
 import Popup from '../../Components/Popup/Popup';
 import { Link } from 'react-router-dom';
 import FolderCarousel from '../../Components/Homescreen/FolderCarousel';
+import Origin from '../../Components/Homescreen/Origin';
 
 const emptyAddingDocumentForm = {
   name: '',
@@ -23,6 +24,9 @@ const emptyNewFolderForm = {
 };
 
 export default function Homescreen() {
+  // /home is the default origin
+  const [origin, setOrigin] = useState('/home');
+
   const [isAdding, setIsAdding] = useState(false);
   const toggleNew = () => setIsAdding(prevState => !prevState);
 
@@ -62,10 +66,15 @@ export default function Homescreen() {
         );
         if (response.data) {
           const iterableDocuments = Object.values(response.data);
+          const originDocuments = iterableDocuments.filter(
+            doc => doc.origin === origin
+          );
+
+          console.log(origin);
 
           // Adds a select mode so that you can batch select documents
-          iterableDocuments.forEach(doc => (doc.selected = false));
-          setDocuments(iterableDocuments);
+          originDocuments.forEach(doc => (doc.selected = false));
+          setDocuments(originDocuments);
         }
       };
       getDocuments();
@@ -73,7 +82,7 @@ export default function Homescreen() {
       console.log(e);
     }
     document.title = 'Hello Michael';
-  }, []);
+  }, [origin]);
 
   // * Fetch Folders
   useEffect(() => {
@@ -84,15 +93,17 @@ export default function Homescreen() {
         );
         if (response.data) {
           const iterableFolders = Object.values(response.data);
-          console.log(iterableFolders);
-          setFolders(iterableFolders);
+          const originFolders = iterableFolders.filter(
+            folder => folder.origin === origin
+          );
+          setFolders(originFolders);
         }
       };
       getFolders();
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [origin]);
 
   const newDocument = () => {
     const id = uniqid();
@@ -107,7 +118,7 @@ export default function Homescreen() {
       dateModified,
       timeModified,
       // Top level is / and folders are /folderid/foldeid2/folderid3
-      origin: '/',
+      origin: origin,
     };
     Axios.put(
       `https://central-rush-249500.firebaseio.com/user/documents/${id}.json`,
@@ -131,7 +142,7 @@ export default function Homescreen() {
       color: 'default',
       pinned: false,
       // There are folders within folders
-      origin: '/',
+      origin: origin,
     };
 
     Axios.put(
@@ -280,7 +291,8 @@ export default function Homescreen() {
         batch={batch}
         setModal={setModal}
       />
-      <h1 className='divider'>All Documents</h1>
+      <h1 className='divider'>All Documents in</h1>
+      <Origin origin={origin} setOrigin={setOrigin} />
       <DocumentCarousel
         documents={documents}
         selectMode={selectMode}
@@ -289,7 +301,7 @@ export default function Homescreen() {
       />
       <h1 className='divider'>Folders</h1>
 
-      <FolderCarousel folders={folders} />
+      <FolderCarousel folders={folders} setOrigin={setOrigin} />
       {/* This is the extra details pop up */}
       <Popup
         position={popup.position}
