@@ -10,8 +10,9 @@
   padding: 0 20px;
   position: fixed;
   top: 20px;
+  left: 20px;
   background-color: white;
-  z-index: 999999999;
+  z-index: 1;
 }
 
 .homescreen .topbar .controls {
@@ -84,6 +85,7 @@
 
 .homescreen .document_carousel {
   width: 100vw;
+  padding: 0 20px;
   /* border: 1px solid #008080; */
   /* padding-left: 20px;
   padding-right: 20px; */
@@ -93,6 +95,7 @@
 
 .homescreen .folder-carousel {
   width: 100vw;
+  padding: 0 20px;
 }
 
 .homescreen .document_carousel .document {

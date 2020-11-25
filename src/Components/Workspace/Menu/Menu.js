@@ -11,10 +11,10 @@ const Menu = props => {
   const {
     workspace,
     setWorkspace,
-    setAdd,
     saveContent,
     documentId,
     blockId,
+    setModal,
   } = props;
 
   // Three types of tabs: blocks, notes, and research
@@ -61,7 +61,7 @@ const Menu = props => {
         ...workspace,
         blocks: workspace.blocks.concat([{ id: id, name: val, content: '' }]),
       });
-      setAdd(false);
+      setModal(null);
       axios.put(
         `https://central-rush-249500.firebaseio.com/workspace/blocks/${id}.json`,
         {
@@ -82,7 +82,7 @@ const Menu = props => {
         ...workspace,
         notes: workspace.blocks.concat([{ id: id, name: val, content: '' }]),
       });
-      setAdd(false);
+      setModal(null);
       axios.put(
         `https://central-rush-249500.firebaseio.com/workspace/notes/${id}.json`,
         {
@@ -103,7 +103,7 @@ const Menu = props => {
             items={workspace.blocks}
             setItems={saveBlockPosition}
             saveContent={saveContent}
-            setAdd={setAdd}
+            setAdd={() => setModal('block')}
             documentId={documentId}
             blockId={blockId}
             addItem={addBlock}
@@ -115,7 +115,7 @@ const Menu = props => {
             items={workspace.notes}
             setItems={saveNotePosition}
             // saveContent={saveContent}
-            setAdd={setAdd}
+            setAdd={() => setModal('note')}
             // tabID = {tabID}
             addItem={addNote}
           />

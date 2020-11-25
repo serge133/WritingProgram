@@ -30,7 +30,7 @@ const App = ({ match }) => {
   const [saved, setSaved] = useState(true);
   const [autosaveTimer, setAutosaveTimer] = useState(autosaveTimeInSeconds);
 
-  const [add, setAdd] = useState(false);
+  const [modal, setModal] = useState(null);
 
   const [addBlockForm, setAddBlockForm] = useState(emptyAddBlockForm);
 
@@ -158,7 +158,7 @@ const App = ({ match }) => {
         { id: id, name: addBlockForm.name, content: '' },
       ]),
     });
-    setAdd(false);
+    setModal(null);
     setAddBlockForm(emptyAddBlockForm);
     axios.put(
       `https://central-rush-249500.firebaseio.com/user/documents/${documentId}/blocks/${id}.json`,
@@ -178,6 +178,8 @@ const App = ({ match }) => {
       ? workspace.name.slice(0, 20) + '...'
       : workspace.name;
 
+  const closeModalHandler = () => setModal(null);
+
   return (
     <div className='workspace'>
       <div className='topLeft'>
@@ -189,29 +191,30 @@ const App = ({ match }) => {
       <Menu
         workspace={workspace}
         setWorkspace={setWorkspace}
-        setAdd={setAdd}
+        // setAdd={setAdd}
         saveContent={saveContent}
         documentId={documentId}
         blockId={blockId}
+        setModal={setModal}
       />
-      {add && (
-        <Modal
-          title='New Block'
-          closeModalHandler={() => setAdd(false)}
-          onSubmit={addBlock}
-        >
-          <input
-            value={addBlockForm.name}
-            placeholder='Block Name'
-            onChange={e =>
-              setAddBlockForm({
-                ...addBlockForm,
-                name: e.target.value,
-              })
-            }
-          />
-        </Modal>
-      )}
+      <Modal
+        title='New Block'
+        closeModalHandler={closeModalHandler}
+        onSubmit={addBlock}
+        display={modal === 'block'}
+      >
+        <input
+          value={addBlockForm.name}
+          placeholder='Block Name'
+          onChange={e =>
+            setAddBlockForm({
+              ...addBlockForm,
+              name: e.target.value,
+            })
+          }
+        />
+      </Modal>
+
       {/* Bottom left of Grid */}
       <div className='menuConfigure'>
         <Link

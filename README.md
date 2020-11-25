@@ -1,8 +1,12 @@
+Each folder has an origin as well as folders. The origin is where the document is. The origin for folders is in which folders is the folder located in.
+
 # What needs to be done
 
 - [ ] Add Folders
-- [ ] Each document has the key of origin in which it works that the value is **/ at the top level and to navigate in the folders it will be /folder1/folder2/folder3**
 
 # Later
 
+- [ ] Dark Mode
+- [ ] Moving Documents
+- [ ] Renaming Documents
 - [ ] Pagination in the workspace
