@@ -173,7 +173,10 @@ const App = ({ match }) => {
 
   const block = workspace.blocks.find(block => block.id === blockId);
 
-  const truncatedName = workspace.name.slice(0, 20) + '...';
+  const truncatedName =
+    workspace.name.length > 20
+      ? workspace.name.slice(0, 20) + '...'
+      : workspace.name;
 
   return (
     <div className='workspace'>

@@ -106,3 +106,67 @@
 .homescreen .document_carousel .document .details {
   color: #008080;
 }
+
+/*? NEW */
+
+@keyframes fadeIn {
+  from {
+    display: inline-block;
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes makeTransparent {
+  from {
+    background-color: #00808020;
+  }
+  to {
+    background-color: #00808010;
+  }
+}
+
+.expand_new-button {
+  background-color: #00808020;
+  width: 360px !important;
+  transition-duration: 500ms;
+  text-align: center;
+  height: 35px;
+  overflow: hidden;
+  /* animation-duration: 500ms;
+  animation-name: makeTransparent;
+  animation-fill-mode: forwards; */
+}
+
+.expand_new-button .hidden_buttons {
+  overflow: hidden;
+  height: 35px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.expand_new-button .hidden_buttons .hidden_button {
+  display: none;
+  opacity: 0;
+  animation-delay: 500ms;
+  animation-duration: 500ms;
+  animation-name: fadeIn;
+  animation-fill-mode: forwards;
+  display: inline-block;
+  margin: 0 !important;
+}

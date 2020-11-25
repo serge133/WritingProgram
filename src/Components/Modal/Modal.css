@@ -1,10 +1,19 @@
+/* @keyframes deattach {
+  from {
+    display: flex;
+  }
+  to {
+    display: none;
+  }
+} */
+
 .darken_screen {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.2);
   z-index: 99;
   display: flex;
   align-items: center;
@@ -25,6 +34,7 @@
   overflow: hidden;
   position: relative;
   padding-bottom: 10px;
+  border-radius: 30px;
 }
 
 .modal .top_bar {
@@ -42,6 +52,9 @@
   color: white; */
   /* top: 0;
   left: 0; */
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  /* color: white; */
 }
 
 .modal .content {

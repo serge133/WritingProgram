@@ -13,7 +13,11 @@ const emptyAddingDocumentForm = {
 };
 
 export default function Homescreen() {
-  const [isAddingDocument, setIsAddingDocument] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const toggleNew = () => setIsAdding(prevState => !prevState);
+
+  const [modal, setModal] = useState(null);
+
   const [addingDocumentForm, setAddingDocumentForm] = useState(
     emptyAddingDocumentForm
   );
@@ -54,14 +58,6 @@ export default function Homescreen() {
     document.title = 'Hello Michael';
   }, []);
 
-  // // Set the title of html to the document name
-  // useEffect(() => {
-
-  // }, []);
-
-  const toggleAddingDocument = () =>
-    setIsAddingDocument(prevState => !prevState);
-
   const addDocument = () => {
     const id = uniqid();
     const dateCreated = new Date().toDateString();
@@ -83,7 +79,7 @@ export default function Homescreen() {
     );
     setDocuments(documents.concat([document]));
     setAddingDocumentForm(emptyAddingDocumentForm);
-    toggleAddingDocument();
+    setModal(null);
   };
 
   const activateDocumentMenu = (x, y, documentId) => {
@@ -149,26 +145,72 @@ export default function Homescreen() {
     </Link>
   );
 
+  const renderModal = () => {
+    const handleCloseModal = () => setModal(null);
+
+    switch (modal) {
+      case 'document':
+        return (
+          <Modal
+            title='New Document'
+            closeModalHandler={handleCloseModal}
+            onSubmit={addDocument}
+          >
+            <input
+              value={addingDocumentForm.name}
+              placeholder='Document Name'
+              onChange={e =>
+                setAddingDocumentForm({
+                  ...addingDocumentForm,
+                  name: e.target.value,
+                })
+              }
+            />
+          </Modal>
+        );
+      case 'folder':
+        return (
+          <Modal
+            title='New Folder'
+            onSubmit={() => console.log('adding folder')}
+            closeModalHandler={handleCloseModal}
+          ></Modal>
+        );
+      default:
+        return;
+    }
+  };
+
   return (
     <div className='homescreen'>
-      {isAddingDocument && (
+      <Modal
+        title='New Document'
+        closeModalHandler={() => setModal(null)}
+        display={modal === 'document'}
+        onSubmit={addDocument}
+      >
+        <input
+          value={addingDocumentForm.name}
+          placeholder='Document Name'
+          onChange={e =>
+            setAddingDocumentForm({
+              ...addingDocumentForm,
+              name: e.target.value,
+            })
+          }
+        />
+      </Modal>
+      <Modal
+        title='New Folder'
+        closeModalHandler={() => setModal(null)}
+        display={modal === 'folder'}
+      >
         <Modal
-          title='New Document'
-          closeModalHandler={toggleAddingDocument}
-          onSubmit={addDocument}
-        >
-          <input
-            value={addingDocumentForm.name}
-            placeholder='Document Name'
-            onChange={e =>
-              setAddingDocumentForm({
-                ...addingDocumentForm,
-                name: e.target.value,
-              })
-            }
-          />
-        </Modal>
-      )}
+          title='New Else'
+          closeModalHandler={() => setModal(null)}
+          display={modal === 'else'}
+        ></Modal>
+      </Modal>
       {searchMode && (
         <Modal
           title='Search For A Document'
@@ -194,11 +236,13 @@ export default function Homescreen() {
         </Modal>
       )}
       <Topbar
-        addDocument={toggleAddingDocument}
+        handlePressNew={toggleNew}
+        isAdding={isAdding}
         selectMode={selectMode}
         toggleSelectMode={toggleSelectMode}
         batch={batch}
         toggleSearchMode={toggleSearchMode}
+        setModal={setModal}
       />
       {/* <h1>Recents</h1>
       <DocumentCarousel />
