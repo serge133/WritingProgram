@@ -5,7 +5,7 @@ export default function FolderCarousel({ folders }) {
     <section className='folder-carousel'>
       {folders.map(folder => (
         <div className='folder' key={folder.id}>
-          {folder.name}
+          <span className='folder-name'>{folder.name}</span>
         </div>
       ))}
     </section>

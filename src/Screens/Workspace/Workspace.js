@@ -122,7 +122,7 @@ const App = ({ match }) => {
       copyBlocks[thisBlockIndex].name = changedName;
       // setBlocks(copyBlocks);
       setWorkspace({ ...workspace, blocks: copyBlocks });
-      setSaved(true);
+      // setSaved(true);
       axios.patch(
         `https://central-rush-249500.firebaseio.com/user/documents/${documentId}/blocks/${blockId}.json`,
         {
