@@ -88,6 +88,7 @@
   border: 3px solid #00808020;
   width: fit-content;
   border-radius: 30px;
+  margin-bottom: 20px;
 }
 
 .origin-path .path {

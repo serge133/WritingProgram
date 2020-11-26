@@ -18,7 +18,7 @@
   margin: 20px;
 }
 
-.homescreen .searched_document {
+.homescreen .searched-document {
   display: flex;
   height: 70px;
   width: 100%;
@@ -33,11 +33,18 @@
   position: relative;
 }
 
-.homescreen .searched_document h3 {
+/* .homescreen .searched-document .searched-document_description {
+} */
+
+.homescreen .searched-document .searched-document_name {
   color: #008080;
 }
 
-.homescreen .searched_document .details {
+.homescreen .searched-document .searched-document_origin {
+  color: #00808080;
+}
+
+.homescreen .searched-document .details {
   background-color: #00808020;
   position: absolute;
   right: 0;
@@ -51,6 +58,6 @@
   padding: 20px;
 }
 
-.homescreen .searched_document .details .text {
+.homescreen .searched-document .details .text {
   color: #008080;
 }

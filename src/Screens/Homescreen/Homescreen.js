@@ -41,6 +41,7 @@ export default function Homescreen() {
   // ---
 
   // Essentials
+  const [allDocuments, setAllDocuments] = useState([]);
   const [documents, setDocuments] = useState([]);
   const [folders, setFolders] = useState([]);
   // ---
@@ -66,11 +67,11 @@ export default function Homescreen() {
         );
         if (response.data) {
           const iterableDocuments = Object.values(response.data);
+          // For the search
+          setAllDocuments(iterableDocuments);
           const originDocuments = iterableDocuments.filter(
             doc => doc.origin === origin
           );
-
-          console.log(origin);
 
           // Adds a select mode so that you can batch select documents
           originDocuments.forEach(doc => (doc.selected = false));
@@ -203,13 +204,22 @@ export default function Homescreen() {
     },
   };
 
-  const SearchedDocument = ({ documentId, documentName, dateModified }) => (
+  const SearchedDocument = ({
+    documentId,
+    documentName,
+    dateModified,
+    documentOrigin,
+  }) => (
     <Link
       to={`/workspace/${documentId}/all`}
       style={{ textDecoration: 'none' }}
     >
-      <div className='searched_document'>
-        <h3>{documentName}</h3>
+      <div className='searched-document'>
+        <section>
+          <h3 className='searched-document_name'>{documentName}</h3>
+          <h6 className='searched-document_origin'>{documentOrigin}</h6>
+        </section>
+
         <section className='details'>
           <h5 className='text'>{dateModified}</h5>
         </section>
@@ -260,6 +270,7 @@ export default function Homescreen() {
         closeModalHandler={closeModalHandler}
         display={modal === 'else'}
       ></Modal>
+      {/* Search */}
       <Modal
         title='Search For A Document'
         closeModalHandler={closeModalHandler}
@@ -270,7 +281,7 @@ export default function Homescreen() {
           onChange={e => setSearchQuery(e.target.value)}
           placeholder='Search Documents'
         ></input>
-        {documents
+        {allDocuments
           .filter(doc =>
             doc.name.toLowerCase().includes(searchQuery.toLowerCase())
           )
@@ -280,6 +291,7 @@ export default function Homescreen() {
               documentId={d.id}
               documentName={d.name}
               dateModified={d.dateModified}
+              documentOrigin={d.origin}
             />
           ))}
       </Modal>
