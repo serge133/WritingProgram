@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './HomescreenComponents.css';
 
 export default function Topbar({
-  handlePressNew,
-  isAdding,
   selectMode,
   toggleSelectMode,
   batch,
   setModal,
 }) {
   // parent css class is '.homescreen'
+  const [isAdding, setIsAdding] = useState(false);
+  const handlePressNew = () => setIsAdding(prevState => !prevState);
 
   return (
     <section className='topbar'>
@@ -39,12 +39,6 @@ export default function Topbar({
                 onClick={() => setModal('folder')}
               >
                 Folder
-              </button>
-              <button
-                className='hidden_button'
-                onClick={() => setModal('else')}
-              >
-                else
               </button>
             </div>
           ) : (

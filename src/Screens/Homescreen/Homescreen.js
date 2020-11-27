@@ -14,8 +14,6 @@ const emptyAddingDocumentForm = {
   name: '',
 };
 
-const folderSizes = ['small', 'medium', 'large'];
-
 const emptyNewFolderForm = {
   name: '',
   size: '',
@@ -27,13 +25,13 @@ export default function Homescreen() {
   // /home is the default origin
   const [origin, setOrigin] = useState('/home');
 
-  const [isAdding, setIsAdding] = useState(false);
-  const toggleNew = () => setIsAdding(prevState => !prevState);
+  //// const [isAdding, setIsAdding] = useState(false);
+  //// const toggleNew = () => setIsAdding(prevState => !prevState);
 
   const [modal, setModal] = useState(null);
 
   // Forms
-  const [addingDocumentForm, setAddingDocumentForm] = useState(
+  const [newDocumentForm, setNewDocumentForm] = useState(
     emptyAddingDocumentForm
   );
 
@@ -54,9 +52,7 @@ export default function Homescreen() {
     documentId: '',
   });
 
-  //// const [searchMode, setSearchMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  //// const toggleSearchMode = () => setSearchMode(!searchMode);
 
   // * Fetch Documents
   useEffect(() => {
@@ -82,7 +78,7 @@ export default function Homescreen() {
     } catch (e) {
       console.log(e);
     }
-    document.title = 'Hello Michael';
+    document.title = origin;
   }, [origin]);
 
   // * Fetch Folders
@@ -114,7 +110,7 @@ export default function Homescreen() {
     const timeModified = new Date().toLocaleTimeString();
     const document = {
       id: id,
-      name: addingDocumentForm.name,
+      name: newDocumentForm.name,
       dateCreated,
       dateModified,
       timeModified,
@@ -126,7 +122,7 @@ export default function Homescreen() {
       document
     );
     setDocuments(documents.concat([document]));
-    setAddingDocumentForm(emptyAddingDocumentForm);
+    setNewDocumentForm(emptyAddingDocumentForm);
     setModal(null);
   };
 
@@ -139,7 +135,7 @@ export default function Homescreen() {
       id,
       name: newFolderForm.name,
       // Will be small by default
-      size: folderSizes[0],
+      size: 'small',
       color: 'default',
       pinned: false,
       // There are folders within folders
@@ -231,6 +227,36 @@ export default function Homescreen() {
 
   return (
     <div className='homescreen'>
+      <Topbar
+        selectMode={selectMode}
+        toggleSelectMode={toggleSelectMode}
+        batch={batch}
+        setModal={setModal}
+      />
+      <h1 className='divider'>All Documents in</h1>
+      <Origin origin={origin} setOrigin={setOrigin} />
+      <DocumentCarousel
+        documents={documents}
+        selectMode={selectMode}
+        toggleSelectDocument={toggleSelectDocument}
+        activateDocumentMenu={activateDocumentMenu}
+      />
+      <h1 className='divider'>Folders</h1>
+
+      <FolderCarousel folders={folders} setOrigin={setOrigin} />
+      {/* Extras */}
+      <Popup
+        position={popup.position}
+        display={popup.display}
+        handleClosePopup={() => setPopup({ ...popup, display: false })}
+      >
+        <button>RENAME</button>
+        <button>MOVE</button>
+        <button>FAVORITE</button>
+        <button onClick={deleteDocument} className='delete_btn'>
+          DELETE
+        </button>
+      </Popup>
       <Modal
         title='New Document'
         closeModalHandler={closeModalHandler}
@@ -238,11 +264,11 @@ export default function Homescreen() {
         onSubmit={newDocument}
       >
         <input
-          value={addingDocumentForm.name}
+          value={newDocumentForm.name}
           placeholder='Document Name'
           onChange={e =>
-            setAddingDocumentForm({
-              ...addingDocumentForm,
+            setNewDocumentForm({
+              ...newDocumentForm,
               name: e.target.value,
             })
           }
@@ -295,38 +321,6 @@ export default function Homescreen() {
             />
           ))}
       </Modal>
-      <Topbar
-        handlePressNew={toggleNew}
-        isAdding={isAdding}
-        selectMode={selectMode}
-        toggleSelectMode={toggleSelectMode}
-        batch={batch}
-        setModal={setModal}
-      />
-      <h1 className='divider'>All Documents in</h1>
-      <Origin origin={origin} setOrigin={setOrigin} />
-      <DocumentCarousel
-        documents={documents}
-        selectMode={selectMode}
-        toggleSelectDocument={toggleSelectDocument}
-        activateDocumentMenu={activateDocumentMenu}
-      />
-      <h1 className='divider'>Folders</h1>
-
-      <FolderCarousel folders={folders} setOrigin={setOrigin} />
-      {/* This is the extra details pop up */}
-      <Popup
-        position={popup.position}
-        display={popup.display}
-        handleClosePopup={() => setPopup({ ...popup, display: false })}
-      >
-        <button>RENAME</button>
-        <button>MOVE</button>
-        <button>FAVORITE</button>
-        <button onClick={deleteDocument} className='delete_btn'>
-          DELETE
-        </button>
-      </Popup>
     </div>
   );
 }
