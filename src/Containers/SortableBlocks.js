@@ -55,14 +55,7 @@ class Sortable extends Component {
   // Normally you would want to split things out into separate components.
   // But in this example everything is just done in one place for simplicity
   render() {
-    const {
-      items,
-      setAdd,
-      saveContent,
-      blockId,
-      documentId,
-      addItem,
-    } = this.props;
+    const { items, setAdd, saveContent, documentId } = this.props;
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>

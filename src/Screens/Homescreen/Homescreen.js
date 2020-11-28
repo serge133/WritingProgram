@@ -69,8 +69,12 @@ export default function Homescreen() {
             doc => doc.origin === origin
           );
 
-          // Adds a select mode so that you can batch select documents
-          originDocuments.forEach(doc => (doc.selected = false));
+          originDocuments.forEach(doc => {
+            // Adds a select mode so that you can batch select documents
+            doc.selected = false;
+            // So there is an input on the document when you want to rename it
+            doc.isRenaming = false;
+          });
           setDocuments(originDocuments);
         }
       };
@@ -170,17 +174,66 @@ export default function Homescreen() {
     });
   };
 
-  const deleteDocument = documentId => {
-    Axios.delete(
-      `https://central-rush-249500.firebaseio.com/user/documents/${popup.documentId}.json`
-    );
-    const deleteIndex = documents.findIndex(doc => doc.id === popup.documentId);
-    if (deleteIndex < 0) return;
-    const newDocuments = [...documents];
-    newDocuments.splice(deleteIndex, 1);
-    setDocuments(newDocuments);
-    setPopup({ ...popup, display: false });
+  const toggleRenameDocument = () => {
+    const docIndex = documents.findIndex(doc => doc.id === popup.documentId);
+    if (docIndex < 0) return;
+    setDocuments(prevState => {
+      const copyDocuments = [...prevState];
+      const selectedDocument = copyDocuments[docIndex];
+      selectedDocument.isRenaming = !selectedDocument.isRenaming;
+      return copyDocuments;
+    });
   };
+
+  const documentActions = {
+    delete: documentId => {
+      Axios.delete(
+        `https://central-rush-249500.firebaseio.com/user/documents/${popup.documentId}.json`
+      );
+      const deleteIndex = documents.findIndex(
+        doc => doc.id === popup.documentId
+      );
+      if (deleteIndex < 0) return;
+      const newDocuments = [...documents];
+      newDocuments.splice(deleteIndex, 1);
+      setDocuments(newDocuments);
+      // setPopup({ ...popup, display: false });
+    },
+    rename: e => {
+      const name = e.target.value;
+
+      if (e.keyCode === 27) {
+        return toggleRenameDocument();
+      }
+      // If user pressed enter
+      if (e.keyCode === 13) {
+        Axios.patch(
+          `https://central-rush-249500.firebaseio.com/user/documents/${popup.documentId}.json`,
+          { name }
+        );
+        const renameIndex = documents.findIndex(
+          doc => doc.id === popup.documentId
+        );
+        if (renameIndex < 0) return;
+        const newDocuments = [...documents];
+        newDocuments[renameIndex].name = name;
+        setDocuments(newDocuments);
+        toggleRenameDocument();
+      }
+    },
+  };
+
+  // const deleteDocument = documentId => {
+  //   Axios.delete(
+  //     `https://central-rush-249500.firebaseio.com/user/documents/${popup.documentId}.json`
+  //   );
+  //   const deleteIndex = documents.findIndex(doc => doc.id === popup.documentId);
+  //   if (deleteIndex < 0) return;
+  //   const newDocuments = [...documents];
+  //   newDocuments.splice(deleteIndex, 1);
+  //   setDocuments(newDocuments);
+  //   setPopup({ ...popup, display: false });
+  // };
 
   const batch = {
     delete: () => {
@@ -240,6 +293,7 @@ export default function Homescreen() {
         selectMode={selectMode}
         toggleSelectDocument={toggleSelectDocument}
         activateDocumentMenu={activateDocumentMenu}
+        renameDocument={documentActions.rename}
       />
       <h1 className='divider'>Folders</h1>
 
@@ -250,10 +304,10 @@ export default function Homescreen() {
         display={popup.display}
         handleClosePopup={() => setPopup({ ...popup, display: false })}
       >
-        <button>RENAME</button>
+        <button onClick={toggleRenameDocument}>RENAME</button>
         <button>MOVE</button>
         <button>FAVORITE</button>
-        <button onClick={deleteDocument} className='delete_btn'>
+        <button onClick={documentActions.delete} className='delete_btn'>
           DELETE
         </button>
       </Popup>

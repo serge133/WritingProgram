@@ -105,19 +105,19 @@ const Menu = props => {
             saveContent={saveContent}
             setAdd={() => setModal('block')}
             documentId={documentId}
-            blockId={blockId}
-            addItem={addBlock}
+            //// blockId={blockId}
+            //// addItem={addBlock}
           />
         );
       case 'notes':
         return (
           <SortableNotes
             items={workspace.notes}
-            setItems={saveNotePosition}
+            // setItems={saveNotePosition}
             // saveContent={saveContent}
             setAdd={() => setModal('note')}
             // tabID = {tabID}
-            addItem={addNote}
+            // addItem={addNote}
           />
         );
       case 'research':
