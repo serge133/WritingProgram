@@ -134,24 +134,24 @@ const Menu = props => {
   return (
     <div className='menu'>
       <section className='tabs'>
-        <button
+        <div
           className={tab === 'blocks' ? 'selected_tab' : 'tab'}
           onClick={() => setTab('blocks')}
         >
           BLOCKS
-        </button>
-        <button
+        </div>
+        <div
           className={tab === 'notes' ? 'selected_tab' : 'tab'}
           onClick={() => setTab('notes')}
         >
           NOTES
-        </button>
-        <button
+        </div>
+        <div
           className={tab === 'research' ? 'selected_tab' : 'tab'}
           onClick={() => setTab('research')}
         >
           RESEARCH
-        </button>
+        </div>
       </section>
       <section className='content'>{renderTab()}</section>
     </div>
