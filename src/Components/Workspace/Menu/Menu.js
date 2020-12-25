@@ -27,21 +27,21 @@ const Menu = props => {
     setWorkspace({ ...workspace, blocks: items });
   };
 
-  const saveNotePosition = items => {
-    const itemsObj = {};
-    // For some reason react thinks i isn't being used
-    // eslint-disable-next-line
-    for (let i in items) {
-      itemsObj[items[i].id] = { ...items[i], index: i };
-    }
-    console.log(itemsObj);
-    axios.patch(
-      `https://central-rush-249500.firebaseio.com/workspace/notes.json`,
-      itemsObj
-    );
-    // setNotes(items);
-    setWorkspace({ ...workspace, notes: items });
-  };
+  // const saveNotePosition = items => {
+  //   const itemsObj = {};
+  //   // For some reason react thinks i isn't being used
+  //   // eslint-disable-next-line
+  //   for (let i in items) {
+  //     itemsObj[items[i].id] = { ...items[i], index: i };
+  //   }
+  //   console.log(itemsObj);
+  //   axios.patch(
+  //     `https://central-rush-249500.firebaseio.com/workspace/notes.json`,
+  //     itemsObj
+  //   );
+  //   // setNotes(items);
+  //   setWorkspace({ ...workspace, notes: items });
+  // };
 
   const renderTab = () => {
     switch (tab) {
@@ -61,15 +61,7 @@ const Menu = props => {
         return (
           <SortableNotes
             items={workspace.notes}
-            // setItems={saveNotePosition}
-            // saveContent={saveContent}
             setAdd={() => setModal('note')}
-            // tabID = {tabID}
-<<<<<<< HEAD
-            //// addItem={addNote}
-=======
-            // addItem={addNote}
->>>>>>> 0e4f771c249e969023da6d4245a6410a48ffd6ea
           />
         );
       case 'research':
