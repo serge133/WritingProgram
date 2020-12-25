@@ -10,8 +10,15 @@ export default function DocumentCarousel({
   selectMode,
   toggleSelectDocument,
   activateDocumentMenu,
+  renameDocument,
 }) {
-  const Document = ({ documentId, documentName, dateModified, selected }) => {
+  const Document = ({
+    documentId,
+    documentName,
+    dateModified,
+    selected,
+    isRenaming,
+  }) => {
     const updateDateModified = () => {
       Axios.patch(
         `https://central-rush-249500.firebaseio.com/user/documents/${documentId}.json`,
@@ -48,7 +55,15 @@ export default function DocumentCarousel({
             <div style={{ width: '70%' }} />
           </section>
           <div className='details'>
-            <h4 className='title'>{documentName}</h4>
+            {isRenaming ? (
+              <input
+                defaultValue={documentName}
+                onKeyUp={e => renameDocument(e)}
+                autoFocus
+              />
+            ) : (
+              <h4 className='title'>{documentName}</h4>
+            )}
             <h6>{dateModified}</h6>
           </div>
         </Link>
@@ -65,6 +80,7 @@ export default function DocumentCarousel({
           documentName={d.name}
           dateModified={d.dateModified}
           selected={d.selected}
+          isRenaming={d.isRenaming}
         />
       ))}
     </section>

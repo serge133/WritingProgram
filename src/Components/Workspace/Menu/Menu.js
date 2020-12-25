@@ -61,11 +61,15 @@ const Menu = props => {
         return (
           <SortableNotes
             items={workspace.notes}
-            setItems={saveNotePosition}
+            // setItems={saveNotePosition}
             // saveContent={saveContent}
             setAdd={() => setModal('note')}
             // tabID = {tabID}
+<<<<<<< HEAD
             //// addItem={addNote}
+=======
+            // addItem={addNote}
+>>>>>>> 0e4f771c249e969023da6d4245a6410a48ffd6ea
           />
         );
       case 'research':
@@ -82,24 +86,24 @@ const Menu = props => {
   return (
     <div className='menu'>
       <section className='tabs'>
-        <button
+        <div
           className={tab === 'blocks' ? 'selected_tab' : 'tab'}
           onClick={() => setTab('blocks')}
         >
           BLOCKS
-        </button>
-        <button
+        </div>
+        <div
           className={tab === 'notes' ? 'selected_tab' : 'tab'}
           onClick={() => setTab('notes')}
         >
           NOTES
-        </button>
-        <button
+        </div>
+        <div
           className={tab === 'research' ? 'selected_tab' : 'tab'}
           onClick={() => setTab('research')}
         >
           RESEARCH
-        </button>
+        </div>
       </section>
       <section className='content'>{renderTab()}</section>
     </div>
