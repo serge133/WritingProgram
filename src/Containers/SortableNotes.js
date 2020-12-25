@@ -64,7 +64,7 @@ class Sortable extends Component {
   };
 
   renderNotes = () => {
-    const { items, add, setAdd, addItem } = this.props;
+    const { items, setAdd } = this.props;
 
     if (!this.state.note.name) {
       return (

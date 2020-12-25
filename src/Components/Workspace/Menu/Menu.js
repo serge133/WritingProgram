@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
 import './Menu.css';
 import axios from 'axios';
-import uniqid from 'unique-string';
 
 // The sortables
 import SortableBlocks from '../../../Containers/SortableBlocks';
 import SortableNotes from '../../../Containers/SortableNotes';
 
 const Menu = props => {
-  const {
-    workspace,
-    setWorkspace,
-    saveContent,
-    documentId,
-    blockId,
-    setModal,
-  } = props;
+  const { workspace, setWorkspace, saveContent, documentId, setModal } = props;
 
   // Three types of tabs: blocks, notes, and research
   const [tab, setTab] = useState('blocks');
@@ -51,50 +43,6 @@ const Menu = props => {
     setWorkspace({ ...workspace, notes: items });
   };
 
-  // For the lists
-  // ! useless now
-  const addBlock = event => {
-    if (event.key === 'Enter') {
-      const val = event.target.value;
-      const id = uniqid();
-      setWorkspace({
-        ...workspace,
-        blocks: workspace.blocks.concat([{ id: id, name: val, content: '' }]),
-      });
-      setModal(null);
-      axios.put(
-        `https://central-rush-249500.firebaseio.com/workspace/blocks/${id}.json`,
-        {
-          id: id,
-          index: workspace.blocks.length,
-          name: val,
-          content: '',
-        }
-      );
-    }
-  };
-
-  const addNote = event => {
-    if (event.key === 'Enter') {
-      const val = event.target.value;
-      const id = uniqid();
-      setWorkspace({
-        ...workspace,
-        notes: workspace.blocks.concat([{ id: id, name: val, content: '' }]),
-      });
-      setModal(null);
-      axios.put(
-        `https://central-rush-249500.firebaseio.com/workspace/notes/${id}.json`,
-        {
-          id: id,
-          index: workspace.notes.length,
-          name: val,
-          content: '',
-        }
-      );
-    }
-  };
-
   const renderTab = () => {
     switch (tab) {
       case 'blocks':
@@ -105,8 +53,8 @@ const Menu = props => {
             saveContent={saveContent}
             setAdd={() => setModal('block')}
             documentId={documentId}
-            blockId={blockId}
-            addItem={addBlock}
+            //// blockId={blockId}
+            //// addItem={addBlock}
           />
         );
       case 'notes':
@@ -117,7 +65,7 @@ const Menu = props => {
             // saveContent={saveContent}
             setAdd={() => setModal('note')}
             // tabID = {tabID}
-            addItem={addNote}
+            //// addItem={addNote}
           />
         );
       case 'research':

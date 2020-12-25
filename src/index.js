@@ -5,7 +5,6 @@ import Workspace from './Screens/Workspace/Workspace';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Homescreen from './Screens/Homescreen/Homescreen';
-import FolderScreen from './Screens/FolderScreen/FolderScreen';
 
 const routing = (
   <Router>

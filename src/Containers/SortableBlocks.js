@@ -59,9 +59,9 @@ class Sortable extends Component {
       items,
       setAdd,
       saveContent,
-      blockId,
       documentId,
-      addItem,
+      //// blockId,
+      //// addItem,
     } = this.props;
 
     return (

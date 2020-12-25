@@ -4,7 +4,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import backSVG from '../../assets/back.svg';
 import Menu from '../../Components/Workspace/Menu/Menu';
 
 import Block from '../../Components/Workspace/Block/Block';
@@ -112,6 +111,7 @@ const App = ({ match }) => {
       setAutosaveTimer(autosaveTimeInSeconds);
     }
     return () => clearTimeout(timeout);
+    // eslint-disable-next-line
   }, [autosaveTimer, setAutosaveTimer, saved]);
 
   // Change Block Name
@@ -194,7 +194,7 @@ const App = ({ match }) => {
         // setAdd={setAdd}
         saveContent={saveContent}
         documentId={documentId}
-        blockId={blockId}
+        //// blockId={blockId}
         setModal={setModal}
       />
       <Modal

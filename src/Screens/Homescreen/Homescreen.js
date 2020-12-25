@@ -185,9 +185,10 @@ export default function Homescreen() {
   const batch = {
     delete: () => {
       const documentsToDelete = documents.filter(doc => doc.selected);
-      for (const i of documentsToDelete) {
+      // eslint-disable-next-line
+      for (let doc of documentsToDelete) {
         Axios.delete(
-          `https://central-rush-249500.firebaseio.com/user/documents/${i.id}.json`
+          `https://central-rush-249500.firebaseio.com/user/documents/${doc.id}.json`
         );
       }
       setDocuments(prevState => prevState.filter(doc => !doc.selected));
