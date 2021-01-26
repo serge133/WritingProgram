@@ -1,9 +1,7 @@
 .homescreen {
-  padding-top: 100px;
   width: 100vw;
   height: 100vh;
   overflow-y: auto;
-  /* overflow-x: auto; */
 }
 
 .homescreen .origin {
@@ -32,9 +30,6 @@
   padding: 0 20px;
   position: relative;
 }
-
-/* .homescreen .searched-document .searched-document_description {
-} */
 
 .homescreen .searched-document .searched-document_name {
   color: #008080;

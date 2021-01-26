@@ -34,7 +34,7 @@ const Menu = props => {
   //   for (let i in items) {
   //     itemsObj[items[i].id] = { ...items[i], index: i };
   //   }
-  //   console.log(itemsObj);
+
   //   axios.patch(
   //     `https://central-rush-249500.firebaseio.com/workspace/notes.json`,
   //     itemsObj

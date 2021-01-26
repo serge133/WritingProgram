@@ -10,8 +10,6 @@ const routing = (
   <Router>
     <Route exact path='/' component={Homescreen} />
     <Route path='/workspace/:documentId/:blockId' component={Workspace} />
-    {/* <Route path='/folder/:folderId' component={FolderScreen} /> */}
-    {/* <Route exact path='/workspace/split/:blockID/:id' component={SplitScreen} /> */}
   </Router>
 );
 

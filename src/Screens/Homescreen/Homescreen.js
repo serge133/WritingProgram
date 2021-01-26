@@ -9,6 +9,10 @@ import Popup from '../../Components/Popup/Popup';
 import { Link } from 'react-router-dom';
 import FolderCarousel from '../../Components/Homescreen/FolderCarousel';
 import Origin from '../../Components/Homescreen/Origin';
+import Menu from '../../Components/Menu';
+import mountainJPG from '../../assets/mountain.jpg';
+import styled from 'styled-components';
+import { colors } from '../../default-styles';
 
 const emptyAddingDocumentForm = {
   name: '',
@@ -23,7 +27,7 @@ const emptyNewFolderForm = {
 
 export default function Homescreen() {
   // /home is the default origin
-  const [origin, setOrigin] = useState('/home');
+  const [origin, setOrigin] = useState('/');
 
   //// const [isAdding, setIsAdding] = useState(false);
   //// const toggleNew = () => setIsAdding(prevState => !prevState);
@@ -41,6 +45,7 @@ export default function Homescreen() {
   // Essentials
   const [allDocuments, setAllDocuments] = useState([]);
   const [documents, setDocuments] = useState([]);
+  const [allFolders, setAllFolders] = useState([]);
   const [folders, setFolders] = useState([]);
   // ---
   const [selectMode, setSelectMode] = useState(false);
@@ -97,6 +102,7 @@ export default function Homescreen() {
           const originFolders = iterableFolders.filter(
             folder => folder.origin === origin
           );
+          setAllFolders(iterableFolders);
           setFolders(originFolders);
         }
       };
@@ -279,27 +285,67 @@ export default function Homescreen() {
 
   const closeModalHandler = () => setModal(null);
 
+  const Container = styled.div`
+    height: 100vh;
+    width: 100vw;
+  `;
+
+  const BackgroundImage = styled.img`
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    min-width: 1000px;
+  `;
+
+  const Content = styled.div`
+    padding: 20px;
+    width: calc(100vw - 200px);
+    height: 70vh;
+    margin-top: 30vh;
+    margin-left: 200px;
+    background-color: ${colors.white};
+    display: inline-block;
+    position: relative;
+  `;
+
+  const ContentStatusBar = styled.section`
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    top: -50px;
+    left: 0px;
+    background-color: ${colors.blue2 + 'DD'};
+    backdrop-filter: blur(5px);
+  `;
+
   return (
-    <div className='homescreen'>
-      <Topbar
+    <Container>
+      {/* <Topbar
         selectMode={selectMode}
         toggleSelectMode={toggleSelectMode}
         batch={batch}
         setModal={setModal}
-      />
-      <h1 className='divider'>All Documents in</h1>
-      <Origin origin={origin} setOrigin={setOrigin} />
-      <DocumentCarousel
-        documents={documents}
-        selectMode={selectMode}
-        toggleSelectDocument={toggleSelectDocument}
-        activateDocumentMenu={activateDocumentMenu}
-        renameDocument={documentActions.rename}
-      />
-      <h1 className='divider'>Folders</h1>
+      /> */}
+      <Menu allFolders={allFolders} />
+      <BackgroundImage src={mountainJPG} alt='mountain' />
+      <Content>
+        <ContentStatusBar>
+          {/* //// <Origin origin={origin} setOrigin={setOrigin} /> */}
+        </ContentStatusBar>
+        <DocumentCarousel
+          documents={documents}
+          selectMode={selectMode}
+          toggleSelectDocument={toggleSelectDocument}
+          activateDocumentMenu={activateDocumentMenu}
+          renameDocument={documentActions.rename}
+        />
+        <FolderCarousel folders={folders} setOrigin={setOrigin} />
+      </Content>
+      {/* <h1 className='divider'>Folders</h1>
 
-      <FolderCarousel folders={folders} setOrigin={setOrigin} />
-      {/* Extras */}
+      
       <Popup
         position={popup.position}
         display={popup.display}
@@ -351,7 +397,6 @@ export default function Homescreen() {
         closeModalHandler={closeModalHandler}
         display={modal === 'else'}
       ></Modal>
-      {/* Search */}
       <Modal
         title='Search For A Document'
         closeModalHandler={closeModalHandler}
@@ -375,8 +420,8 @@ export default function Homescreen() {
               documentOrigin={d.origin}
             />
           ))}
-      </Modal>
-    </div>
+      </Modal> */}
+    </Container>
   );
 }
 
